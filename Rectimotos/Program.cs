@@ -1,4 +1,4 @@
-using Rectimotos.Clases;
+using Rectimotos.Models;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 

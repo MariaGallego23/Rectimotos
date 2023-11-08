@@ -13,17 +13,40 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Rectimotos</a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
+                        @*USUARIO*@
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-controller="Ventas" asp-action="PedidosUser">Mis Pedidos</a> @*VENTAS*@
+                        </li>
+
+                        @*ADMINISTRADOR*@
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administración</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt text-danger"></i> Dashboard</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" asp-controller="Categorias" asp-action="Index"><i class="fa fa-folder-tree text-danger"></i> Categorías</a></li>
+                                <li><a class="dropdown-item" asp-controller="Paises" asp-action="Index"><i class="fa fa-globe text-danger"></i> Países</a></li>
+                                <li><a class="dropdown-item" asp-controller="Ventas" asp-action="Index"><i class="fa-solid fa-store text-danger"></i> Pedidos</a></li> @*VENTAS*@
+                                <li><a class="dropdown-item" asp-controller="Productos" asp-action="Index"><i class="fa fa-tags text-danger"></i> Productos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Index"><i class="fa fa-users text-danger"></i> Usuarios</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
                         </li>
                     </ul>
                 </div>

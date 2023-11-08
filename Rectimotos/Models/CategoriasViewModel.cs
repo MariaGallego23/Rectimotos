@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Rectimotos.Clases.Entidades
+namespace Rectimotos.Models
 {
-    public class Categorias
+    public class CategoriasViewModel
     {
         [Key]
         public int IdCategoria { get; set; }

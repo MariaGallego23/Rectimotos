@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,35 +22,52 @@
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
 
                         @*USUARIO*@
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Ventas" asp-action="PedidosUser">Mis Pedidos</a> @*VENTAS*@
-                        </li>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("User")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Ventas" asp-action="PedidosUser">Mis Pedidos</a> @*VENTAS*@
+                            </li>
+                        }
 
                         @*ADMINISTRADOR*@
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administración</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt text-danger"></i> Dashboard</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" asp-controller="Categorias" asp-action="Index"><i class="fa fa-folder-tree text-danger"></i> Categorías</a></li>
-                                <li><a class="dropdown-item" asp-controller="Paises" asp-action="Index"><i class="fa fa-globe text-danger"></i> Países</a></li>
-                                <li><a class="dropdown-item" asp-controller="Ventas" asp-action="Index"><i class="fa-solid fa-store text-danger"></i> Pedidos</a></li> @*VENTAS*@
-                                <li><a class="dropdown-item" asp-controller="Productos" asp-action="Index"><i class="fa fa-tags text-danger"></i> Productos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Index"><i class="fa fa-users text-danger"></i> Usuarios</a></li>
-                            </ul>
-                        </li>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administración</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt text-danger"></i> Dashboard</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-controller="Categorias" asp-action="Index"><i class="fa fa-folder-tree text-danger"></i> Categorías</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Paises" asp-action="Index"><i class="fa fa-globe text-danger"></i> Países</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Ventas" asp-action="Index"><i class="fa-solid fa-store text-danger"></i> Pedidos</a></li> @*VENTAS*@
+                                    <li><a class="dropdown-item" asp-controller="Productos" asp-action="Index"><i class="fa fa-tags text-danger"></i> Productos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Index"><i class="fa fa-users text-danger"></i> Usuarios</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
-                    <ul class="navbar-nav justify-content-end">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
-                        </li>
-                    </ul>
+
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
+                                        <button type="submit" class="nav-link btn btn-primary">Cerrar Sesión</button>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                                </li>
+                            }
+                        </ul>
                 </div>
             </div>
         </nav>

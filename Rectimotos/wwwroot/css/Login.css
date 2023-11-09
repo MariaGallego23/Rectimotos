@@ -1,0 +1,94 @@
+﻿/* ESTILOS PARA EL LOGIN PRINCIPAL    (...Account/Login.cshtml)*/
+
+img {
+    padding: 22px;
+}
+
+.container, .container-md, .container-sm {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.text-center {
+    padding: 6px !important;
+}
+
+h3 {
+    font-family: 'Futura', sans-serif !important;
+    font-size: 20px;
+    font-weight: 600 !important;
+    color: #808080;
+    padding: 14px;
+}
+
+h4 {
+    background-color: #1B4698;
+    color: white;
+    padding: 7px;
+    border-radius: 14px;
+}
+
+.form-group {
+    position: absolute;
+    margin: 3px;
+    font-size: 23px;
+}
+
+.form-control {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 7px;
+}
+
+.input-group-text {
+    background: #B2BABB !important;
+    border: none;
+}
+
+.bi-person-circle::before {
+    content: "\f4d7";
+    color: #f80d3f;
+    font-size: 20px;
+}
+
+.bi-lock::before {
+    content: "\f47b";
+    color: #f80d3f;
+    font-size: 20px;
+}
+
+.bi-eye::before {
+    color: #f80d3f;
+    font-size: 20px;
+    position: absolute;
+    display: block;
+    bottom: .5rem;
+    right: 1rem;
+    user-select: none;
+    cursor: pointer;
+}
+
+.btn-danger {
+    font-family: 'Futura', sans-serif;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.btn-regresar {
+    border-radius: 20px;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+}
+
+h5 { /*FOOTER*/
+    color: #000000;
+    font-family: 'Futura', sans-serif;
+    font-size: 15px !important;
+}

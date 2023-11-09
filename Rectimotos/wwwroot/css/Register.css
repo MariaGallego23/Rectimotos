@@ -1,0 +1,105 @@
+﻿/* ESTILOS PARA EL REGISTRO D CLIENTES     (...Account/Register.cshtml)*/
+
+img {
+    padding: 22px;
+}
+
+.container, .container-md, .container-sm {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.text-center {
+    padding: 6px !important;
+}
+
+h2 {
+    font-family: 'Futura', sans-serif !important;
+    font-size: 23px;
+    font-weight: 600 !important;
+    color: #4C4C4D;
+    padding: 12px;
+}
+
+h3 {
+    font-family: 'Futura', sans-serif !important;
+    font-size: 15px;
+    font-weight: 600 !important;
+    color: #4C4C4D;
+    padding: 14px;
+}
+
+.form-group {
+    position: absolute;
+    margin: 3px;
+    font-size: 23px;
+}
+
+.form-control {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 7px;
+}
+
+.input-group-text {
+    background: #B2BABB !important;
+    border: none;
+}
+
+.bi-person-vcard::before {
+    color: #1B4698;
+    font-size: 20px;
+}
+
+.bi-person-circle::before {
+    color: #1B4698;
+    font-size: 20px;
+}
+
+.bi-at::before {
+    color: #1B4698;
+    font-size: 20px;
+}
+
+.bi-lock::before {
+    color: #1B4698;
+    font-size: 20px;
+}
+
+.bi-eye::before {
+    color: #1B4698;
+    font-size: 20px;
+    position: absolute;
+    display: block;
+    bottom: .5rem;
+    right: 1rem;
+    user-select: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #1B4698;
+    border-color: #1B4698;
+    font-family: 'Futura', sans-serif;
+    font-size: 15px;
+}
+
+.btn-regresar {
+    border-radius: 20px;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 20px;
+}
+
+h5 { /*FOOTER*/
+    color: #000000;
+    font-family: 'Futura', sans-serif;
+    font-size: 15px !important;
+}

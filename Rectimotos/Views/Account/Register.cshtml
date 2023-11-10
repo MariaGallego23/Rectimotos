@@ -1,67 +1,51 @@
-﻿@model IEnumerable<Rectimotos.Models.UsuariosViewModel>
-@using Rectimotos.Clases;
-
-@{
-    ViewData["Title"] = "Register";
-}
+﻿@model Rectimotos.Models.UsuariosViewModel
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
-        <title>@ViewData["Title"] - Rectimotos</title>
+        <title>REGISTRO DE CLIENTE | MONTACARGAS AM&M</title>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
+        <link rel="stylesheet" href="~/css/Register.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/Rectimotos.styles.css" asp-append-version="true" />
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     </head>
 
- <body>
-     <header>
-         <div class="container col-12">
-            <div class="card text-center hold-transition login-page m-auto col-6 ">
+    <body>
 
-                @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-                {
-                    <div class="card-body text-center">
-                        <div class="container col-12 col-lg-9">
-                            <div class="col-12 m-auto">
-                                <h3>REGISTRO DE CLIENTES</h3>
+        
+        <header>
+            <div class="container">
+                <div class="card justify-content-center text-center hold-transition login-page m-auto">
 
-                                <div class="input-group mb-3">
-                                    <span for="Cedula" class="input-group-text" id="basic-addon1"><i class="bi bi-person-vcard"></i></span>
-                                    <input type="text" id="Cedula" name="model.Cedula" class="form-control" placeholder="CEDULA" aria-describedby="basic-addon1" required><br>
-                                </div><br>
+                    <form asp-action="Register">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                                <div class="input-group mb-3">
-                                    <span for="NombreCompleto" class="input-group-text" id="basic-addon1"><i class="bi bi-person-circle"></i></span>
-                                    <input type="text" id="NombreCompleto" name="model.NombreCompleto" class="form-control" placeholder="NOMBRE COMPLETO" aria-describedby="basic-addon1" required><br>
-                                </div><br>
+                        <h4> REGISTRO DE CLIENTES </h4>
 
-                                 <div class="input-group mb-3">
-                                    <span for="Telefono" class="input-group-text" id="basic-addon1"><i class="bi bi-person-circle"></i></span>
-                                    <input type="text" id="Telefono" name="model.Telefono" class="form-control" placeholder="TELEFONO" aria-describedby="basic-addon1"><br>
-                                </div><br>
+                        <div class="card-body">
+                            <div class="form-group col-12">
+                                <label asp-for="Cedula" class="control-label">Numero de Documento:</label>
+                                <input asp-for="Cedula" class="form-control" required />
+                                <span asp-validation-for="Cedula" class="text-danger"></span>
+                            </div>
 
-                                 <div class="input-group mb-3">
-                                    <span for="IdCiudad" class="input-group-text" id="basic-addon1"><i class="bi bi-person-circle"></i></span>
-                                    <input type="text" id="IdCiudad" name="model.IdCiudad" class="form-control" placeholder="CIUDAD" aria-describedby="basic-addon1" ><br>
-                                </div><br>
+                            <div class="form-group col-12">
+                                <label asp-for="NombreCompleto" class="control-label">Nombre Completo:</label>
+                                <input asp-for="NombreCompleto" class="form-control" required />
+                                <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+                            </div>
 
-                                <div class="input-group mb-3">
-                                    <span for="Direccion" class="input-group-text" id="basic-addon1"><i class="bi bi-person-circle"></i></span>
-                                    <input type="text" id="Direccion" name="model.Direccion" class="form-control" placeholder="DIRECCIÓN" aria-describedby="basic-addon1" ><br>
-                                </div><br>
+                            <div class="form-group col-12">
+                                <label asp-for="Direccion" class="control-label">Direccion:</label>
+                                <input asp-for="Direccion" class="form-control" required />
+                                <span asp-validation-for="Direccion" class="text-danger"></span>
+                            </div>
 
-                                <div class="input-group mb-3">
-                                    <span for="Imagen" class="input-group-text" id="basic-addon1"><i class="bi bi-person-circle"></i></span>
-                                    <input type="text" id="Imagen" name="model.Imagen" class="form-control" placeholder="AGREGAR FOTO" aria-describedby="basic-addon1" ><br>
-                                </div><br>
-
-                                <div class="input-group mb-3">
-                                    <span for="Email" class="input-group-text" id="basic-addon1"><i class="bi bi-at"></i></span>
-                                    <input type="text" id="Email" name="Email" class="form-control" placeholder="CORREO ELECTRONICO" aria-describedby="basic-addon1" required><br>
-                                </div><br>
+                            <div class="form-group col-12">
+                                <label asp-for="Email" class="control-label">Correo Electronico:</label>
+                                <input asp-for="Email" class="form-control" required />
+                                <span asp-validation-for="Email" class="text-danger"></span>
 
                                 @if (!string.IsNullOrEmpty(TempData["ErrorEmail"] as string))
                                 {
@@ -71,11 +55,12 @@
                                         </p>
                                     </div>
                                 }
+                            </div>
 
-                                 <div class="input-group mb-3">
-                                    <span for="Usuario" class="input-group-text" id="basic-addon1"><i class="bi bi-person-circle"></i></span>
-                                    <input type="text" id="Email" Usuario="Usuario" class="form-control" placeholder="USUARIO" aria-describedby="basic-addon1" required><br>
-                                </div><br>
+                            <div class="form-group col-12">
+                                <label asp-for="Usuario" class="control-label">Usuario:</label>
+                                <input asp-for="Usuario" class="form-control" required />
+                                <span asp-validation-for="Usuario" class="text-danger"></span>
 
                                 @if (!string.IsNullOrEmpty(TempData["ErrorUser"] as string))
                                 {
@@ -85,12 +70,12 @@
                                         </p>
                                     </div>
                                 }
-
-                                <div class="input-group mb-3">
-                                    <span for="Contraseña" class="input-group-text" id="basic-addon1"><i class="bi bi-lock"></i></span>
-                                    <input type="password" id="Contraseña" name="Contraseña" class="form-control" placeholder="CONTRASEÑA" aria-describedby="basic-addon1" required>
-                                    <span id="togglePassword" onclick="togglePasswordVisibility()"><i class="bi bi-eye"></i></span>
-                                </div><br>
+                            </div>
+                       
+                            <div class="form-group  col-12">
+                                <label asp-for="Contraseña" class="control-label">Contraseña:</label>
+                                <input asp-for="Contraseña" type="password" class="form-control" required />
+                                <span asp-validation-for="Contraseña" class="text-danger"></span>
 
                                 @if (!string.IsNullOrEmpty(TempData["ErrorPassword"] as string))
                                 {
@@ -100,33 +85,32 @@
                                         </p>
                                     </div>
                                 }
+                            </div>
 
-                                <button type="submit" value="Registrar" class="btn btn-danger">REGISTRARSE</button>
+                            <div class="form-group" hidden>
+                                <label asp-for="IdRol" class="control-label">Tipo de usuario:</label>
+                                <input asp-for="IdRol" class="form-control" readonly>
+                                <span asp-validation-for="IdRol" class="text-danger"></span>
+                            </div>
 
-                                @if (!string.IsNullOrEmpty(TempData["Message"] as string))
-                                {
-                                    <div class="text-danger">
-                                        <p>
-                                            @TempData["Message"]
-                                        </p>
-                                    </div>
-                                }
+                            <button type="submit" value="Registrar" class="btn btn-primary btn-crear">Registrarse</button>
 
-                                <div class="text-center">
-                                    <a asp-controller="Account" asp-action="Login" class="text-center">Ya tengo una cuenta</a>
+                            @if (!string.IsNullOrEmpty(TempData["Message"] as string))
+                            {
+                                <div class="text-danger">
+                                    <p>
+                                        @TempData["Message"]
+                                    </p>
                                 </div>
+                            }
+
+                            <div class="text-center">
+                                <a asp-controller="Account" asp-action="Login" class="text-center">Ya tengo una cuenta</a>
                             </div>
                         </div>
-                    </div>
-                }
+                    </form>
+                </div>
             </div>
-         </div>
-    </header>
-
-     <footer>
-            <h5>&copy; Copyright 2023 - Rectimotos José Adan - TIC v1.0</h5>
-     </footer>
-
- </body>
-
+        </header>
+    </body>
 </html>

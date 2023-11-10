@@ -3,104 +3,102 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>@ViewData["Title"] - Rectimotos</title>
 
         <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="~/lib/font-awesone/css/all.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        <link rel="stylesheet" href="~/css/_Layout.css"/>
+
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/Rectimotos.styles.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/_Layout.css"/>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="~/lib/font-awesone/js/all.min.js"></script>
 
     </head>
 
-    <body>
-        <div class="container-fluid">
-            <header>
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Rectimotos</a>
+   <body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Rectimotos</a>
 
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                        <ul class="navbar-nav flex-grow-1 justify-content-end">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <ul class="navbar-nav flex-grow-1">
+
+                        
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("User")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Ventas" asp-action="PedidosUser">Mis Pedidos</a> 
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administración</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt text-danger"></i> Dashboard</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-controller="Categorias" asp-action="Index"><i class="fa fa-folder-tree text-danger"></i> Categorías</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Paises" asp-action="Index"><i class="fa fa-globe text-danger"></i> Países</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Ventas" asp-action="Index"><i class="fa-solid fa-store text-danger"></i> Pedidos</a></li> 
+                                    <li><a class="dropdown-item" asp-controller="Productos" asp-action="Index"><i class="fa fa-tags text-danger"></i> Productos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Index"><i class="fa fa-users text-danger"></i> Usuarios</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
 
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Usarios" asp-action="Edit"><i class="bi bi-person-circle"></i> @User.Identity.Name </a>
+                                    <a class="nav-link" asp-area="" asp-controller="Usarios" asp-action="EditUser"><i class="bi bi-person-circle"></i> @User.Identity.Name </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
-                                        <button type="submit" class="nav-link btn btn-secondary"><i class="fa-solid fa-door-open"></i> Cerrar Sesión </button>
+                                        <button type="submit" class="nav-link btn btn-secondary">Cerrar Sesión</button>
                                     </form>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                                    <a class="nav-link btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
                                 </li>
                             }
                         </ul>
-                    </div>
-                </nav>
-            </header>
-
-            <div class="row">
-                @*USUARIO*@
-                @if (User.Identity.IsAuthenticated && (User.IsInRole("User")))
-                {
-                    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-                        <div class="position-sticky">
-                            <div class="list-group list-group-flush mx-3 mt-4">  
-                                <h5>MENU DE ACTIVIDADES</h5>
-                                <a asp-controller="Ventas" asp-action="PedidosUser" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-bar fa-fw me-3"></i><span>Mis Pedidos</span></a>
-                            </div>
-                        </div>
-                    </nav>  
-                }
-
-                @*ADMINISTRADOR*@
-                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
-                {
-                    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-                        <div class="position-sticky">
-                            <div class="list-group list-group-flush mx-3 mt-4">
-                                <h5>MENU DE ACTIVIDADES</h5>
-                                <a asp-controller="Categorias" asp-action="Index" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-bar fa-fw me-3"></i><span>Categorias</span></a>
-                                <a asp-controller="Productos" asp-action="Index" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-bar fa-fw me-3"></i><span>Productos</span></a>
-                                <a asp-controller="Ventas" asp-action="Index" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-bar fa-fw me-3"></i><span>Ventas</span></a>
-                                <a asp-controller="Usuarios" asp-action="Index" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-bar fa-fw me-3"></i><span>Usuarios</span></a>
-                                <a asp-controller="Paises" asp-action="Index" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-chart-bar fa-fw me-3"></i><span>Paises</span></a>
-                            </div>
-                        </div>
-                    </nav>
-                }
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    @RenderBody()
-                </main>
+                </div>
             </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Rectimotos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
+    </footer>
 
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2023 - Rectimotos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        @await RenderSectionAsync("Scripts", required: false)
-    </body>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
 </html>

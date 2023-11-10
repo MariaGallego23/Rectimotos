@@ -77,63 +77,43 @@ namespace Rectimotos.Controllers
 
         public IActionResult Register()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login");
-            }
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost] // REGISTRARSE SI Y SOLO SI ES CLIENTE
         public IActionResult Register(UsuariosViewModel model)
         {
-            //PrepareViewData();
-
-            var existingEmail = _context.Usuarios.FirstOrDefault(u => u.Email == model.Email);
+            var existingEmail = _context.Usuarios.FirstOrDefault(u => u.Usuario == model.Usuario);
             var existingUser = _context.Usuarios.FirstOrDefault(u => u.Usuario == model.Usuario);
             var existingPassword = _context.Usuarios.FirstOrDefault(u => u.Contraseña == model.Contraseña);
 
+            // Verificar si el correo ya existe en la base de datos
             if (existingEmail != null)
             {
-                TempData["ErrorEmail"] = "El Correo ya esta en uso, por favor elije otro";
+                TempData["ErrorEmail"] = "El Email ya esta en uso, por favor elije otro";
             }
-            else if (existingUser != null)
+            if (existingUser != null)
             {
-                TempData["ErrorUser"] = "El usuario ya esta en uso, por favor elije otro";
+                TempData["ErrorUser"] = "El Usuario ya esta en uso, por favor elije otro";
             }
+            // Verificar si la contraseña ya existe en la base de datos
             else if (existingPassword != null)
             {
-                TempData["ErrorPassword"] = "La contraseña no valida, por favor elije otro";
+                TempData["ErrorPassword"] = "La contraseña ya esta en uso, por favor elije otro";
             }
             else
             {
-                var nuevoUsuario = new UsuariosViewModel
-                {
-                    Cedula = model.Cedula,
-                    NombreCompleto = model.NombreCompleto,
-                    Telefono = model.Telefono,
-                    IdCiudad = model.IdCiudad,
-                    Direccion = model.Direccion,
-                    Imagen = model.Imagen,
-                    IdRol = 2,
-                    Email = model.Email,
-                    Usuario = model.Usuario,
-                    Contraseña = model.Contraseña
-                };
+                model.Telefono = null;
+                model.IdCiudad = null;
+                model.Imagen = null;
+                model.IdRol = 2;
 
-                _context.Add(nuevoUsuario);
+                _context.Add(model);
                 _context.SaveChanges();
-
                 TempData["Message"] = "REGISTRO DE USUARIO EXITOSO";
-                //PrepareViewData();
-
-                return RedirectToAction("Login");
             }
-            return RedirectToAction("Register", model);
+            return RedirectToAction("Register");
         }
-
-
 
         [HttpPost]
         public IActionResult Logout()

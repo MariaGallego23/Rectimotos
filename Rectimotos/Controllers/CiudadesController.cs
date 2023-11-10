@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rectimotos.Models;
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Rectimotos.Controllers
 {
@@ -19,13 +18,15 @@ namespace Rectimotos.Controllers
             _context = context;
         }
 
-        // GET: Ciudades
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            return _context.Ciudad != null ?
-                        View(await _context.Ciudad.ToListAsync()) :
-                        Problem("Entity set 'DataContext.Ciudad'  is null.");
+            var ciudades = await _context.Ciudad
+                .Where(c => c.IdEstado == id).ToListAsync();
+
+            ViewBag.Estado = id;
+            return View(ciudades);
         }
+
 
         // GET: Ciudades/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -56,7 +57,7 @@ namespace Rectimotos.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCiudad,Nombre")] CiudadViewModel ciudadViewModel)
+        public async Task<IActionResult> Create([Bind("IdCiudad,Nombre,IdEstado")] CiudadViewModel ciudadViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +89,7 @@ namespace Rectimotos.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCiudad,Nombre")] CiudadViewModel ciudadViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCiudad,Nombre,IdEstado")] CiudadViewModel ciudadViewModel)
         {
             if (id != ciudadViewModel.IdCiudad)
             {
@@ -150,14 +151,14 @@ namespace Rectimotos.Controllers
             {
                 _context.Ciudad.Remove(ciudadViewModel);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CiudadViewModelExists(int id)
         {
-            return (_context.Ciudad?.Any(e => e.IdCiudad == id)).GetValueOrDefault();
+          return (_context.Ciudad?.Any(e => e.IdCiudad == id)).GetValueOrDefault();
         }
     }
 }

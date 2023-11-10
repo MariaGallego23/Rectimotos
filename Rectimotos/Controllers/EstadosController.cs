@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rectimotos.Models;
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Rectimotos.Controllers
 {
@@ -19,13 +18,15 @@ namespace Rectimotos.Controllers
             _context = context;
         }
 
-        // GET: Estados
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            return _context.Estados != null ?
-                        View(await _context.Estados.ToListAsync()) :
-                        Problem("Entity set 'DataContext.Estados'  is null.");
+            var estados = await _context.Estados
+                .Where(e => e.IdPais == id).ToListAsync();
+
+            ViewBag.Pais = id;
+            return View(estados);
         }
+
 
         // GET: Estados/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -56,7 +57,7 @@ namespace Rectimotos.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEstado,Nombre")] EstadosViewModel estadosViewModel)
+        public async Task<IActionResult> Create([Bind("IdEstado,Nombre,IdPais")] EstadosViewModel estadosViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +89,7 @@ namespace Rectimotos.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdEstado,Nombre")] EstadosViewModel estadosViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("IdEstado,Nombre,IdPais")] EstadosViewModel estadosViewModel)
         {
             if (id != estadosViewModel.IdEstado)
             {
@@ -150,14 +151,14 @@ namespace Rectimotos.Controllers
             {
                 _context.Estados.Remove(estadosViewModel);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EstadosViewModelExists(int id)
         {
-            return (_context.Estados?.Any(e => e.IdEstado == id)).GetValueOrDefault();
+          return (_context.Estados?.Any(e => e.IdEstado == id)).GetValueOrDefault();
         }
     }
 }

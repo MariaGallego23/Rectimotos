@@ -18,15 +18,14 @@ namespace Rectimotos.Controllers
             _context = context;
         }
 
-        // GET: Paises
         public async Task<IActionResult> Index()
         {
-              return _context.Paises != null ? 
-                          View(await _context.Paises.ToListAsync()) :
-                          Problem("Entity set 'DataContext.Paises'  is null.");
+            var paises = await _context.Paises.ToListAsync();
+            return View(paises);
         }
 
-        // GET: Paises/Details/5
+
+        // GET: Pais/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Paises == null)
@@ -44,13 +43,13 @@ namespace Rectimotos.Controllers
             return View(paisViewModel);
         }
 
-        // GET: Paises/Create
+        // GET: Pais/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Paises/Create
+        // POST: Pais/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +65,7 @@ namespace Rectimotos.Controllers
             return View(paisViewModel);
         }
 
-        // GET: Paises/Edit/5
+        // GET: Pais/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Paises == null)
@@ -82,7 +81,7 @@ namespace Rectimotos.Controllers
             return View(paisViewModel);
         }
 
-        // POST: Paises/Edit/5
+        // POST: Pais/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -117,7 +116,7 @@ namespace Rectimotos.Controllers
             return View(paisViewModel);
         }
 
-        // GET: Paises/Delete/5
+        // GET: Pais/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Paises == null)
@@ -135,7 +134,7 @@ namespace Rectimotos.Controllers
             return View(paisViewModel);
         }
 
-        // POST: Paises/Delete/5
+        // POST: Pais/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

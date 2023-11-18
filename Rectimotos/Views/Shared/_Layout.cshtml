@@ -2,90 +2,167 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>@ViewData["Title"] - Rectimotos</title>
 
-        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="~/lib/font-awesone/css/all.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<head>
+    <title>@ViewData["Title"] - Rectimotos</title>
 
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/Rectimotos.styles.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/_Layout.css"/>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesone/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="~/lib/font-awesone/js/all.min.js"></script>
 
-    </head>
+    <link rel="stylesheet" href="~/css/app.css" />
 
-   <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/font-awesone/js/all.min.js"></script>
+
+</head>
+
+<body>
+    <!-- ======= Header ======= -->
+
+    @if (!User.Identity.IsAuthenticated && !(ViewContext.RouteData.Values["Controller"].ToString() == "Account" &&
+    ViewContext.RouteData.Values["Action"].ToString() == "Login"))
+    {
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ff0000;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Rectimotos</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#">RectiMotos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-
-                    <ul class="navbar-nav flex-grow-1">
-
-                        
-                        @if (User.Identity.IsAuthenticated && (User.IsInRole("User")))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Ventas" asp-action="PedidosUser">Mis Pedidos</a> 
-                            </li>
-                        }
-
-                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administración</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt text-danger"></i> Dashboard</a></li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li><a class="dropdown-item" asp-controller="Categorias" asp-action="Index"><i class="fa fa-folder-tree text-danger"></i> Categorías</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Paises" asp-action="Index"><i class="fa fa-globe text-danger"></i> Países</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Ventas" asp-action="Index"><i class="fa-solid fa-store text-danger"></i> Pedidos</a></li> 
-                                    <li><a class="dropdown-item" asp-controller="Productos" asp-action="Index"><i class="fa fa-tags text-danger"></i> Productos</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Index"><i class="fa fa-users text-danger"></i> Usuarios</a></li>
-                                </ul>
-                            </li>
-                        }
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Login">Iniciar
+                                Sesión</a>
+                        </li>
                     </ul>
-
-                    <ul class="navbar-nav flex-grow-1 justify-content-end">
-
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Usarios" asp-action="EditUser"><i class="bi bi-person-circle"></i> @User.Identity.Name </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
-                                        <button type="submit" class="nav-link btn btn-secondary">Cerrar Sesión</button>
-                                    </form>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
-                                </li>
-                            }
-                        </ul>
                 </div>
             </div>
         </nav>
-    </header>
+
+    }
+
+    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+    {
+        <header id="header" class="header fixed-top d-flex align-items-center">
+
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="index.html" class="logo d-flex align-items-center">
+
+                    <span class="d-none d-lg-block text-danger">RectiMotos</span>
+                </a>
+                <i class="bi bi-list toggle-sidebar-btn"></i>
+            </div><!-- End Logo -->
+
+
+
+            <nav class="header-nav ms-auto">
+                <ul class="d-flex align-items-center">
+
+
+
+                    <li class="nav-item dropdown pe-3">
+
+                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                            <span class="d-none d-md-block dropdown-toggle ps-2">@User.Identity.Name</span>
+                        </a><!-- End Profile Iamge Icon -->
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                            <li class="dropdown-header">
+                                <h6>@User.Identity.Name</h6>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" asp-controller="Usuarios"
+                                    asp-action="EditUser">
+                                    <i class="bi bi-person"></i>
+                                    <span>@User.Identity.Name</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <form method="post" asp-action="Logout" asp-controller="Account">
+                                        <button type="submit" class="btn btn-link text-danger">Cerrar Sesión</button>
+                                    </form>
+                                </a>
+                            </li>
+
+                        </ul><!-- End Profile Dropdown Items -->
+                    </li><!-- End Profile Nav -->
+
+                </ul>
+            </nav><!-- End Icons Navigation -->
+
+        </header>
+        <aside id="sidebar" class="sidebar">
+
+            <ul class="sidebar-nav" id="sidebar-nav">
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-area="" asp-controller="Dashboard" asp-action="Index">
+                        <i class="bi bi-grid text-danger"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="Categorias" asp-action="Index">
+                        <i class="bi bi-tags text-danger"></i>
+                        <span>Categorias</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="Productos" asp-action="Index">
+                        <i class="bi bi-shop text-danger"></i>
+                        <span>Productos</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="Ventas" asp-action="Index">
+                        <i class="bi bi-box2 text-danger"></i>
+                        <span>Pedidos</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="Usuarios" asp-action="Index">
+                        <i class="bi bi-person text-danger"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapse" asp-controller="Paises" asp-action="Index">
+                        <i class="bi bi-globe text-danger"></i>
+                        <span>Paises</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+    }
+
+
+
 
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" id="main" class="main">
             @RenderBody()
         </main>
     </div>
@@ -98,7 +175,8 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

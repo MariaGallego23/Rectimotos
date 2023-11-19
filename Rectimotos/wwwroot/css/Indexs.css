@@ -6,6 +6,7 @@
 .row {
     justify-content: center !important;
     margin-bottom: 22px !important;
+    display: block;
 }
 
 .card-header {
@@ -34,13 +35,22 @@ table {
     border-color: none;
     font-family: 'Futura', sans-serif;
     font-size: 15px;
-    border-radius: 20px
+    border-radius: 20px;
+    color: white !important;
 }
 
 .btn-danger {
     font-family: 'Futura', sans-serif;
     font-size: 15px;
-    border-radius: 20px
+    border-radius: 20px;
+    color: white !important;
+}
+
+.btn.primary {
+    font-family: 'Futura', sans-serif;
+    font-size: 15px;
+    border-radius: 20px;
+    color: white !important;
 }
 
 .botons {

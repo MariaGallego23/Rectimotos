@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims;
+@*@model Rectimotos.Models.UsuariosViewModel*@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,8 +11,8 @@
     <link href="~/lib/font-awesone/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-
-    <link rel="stylesheet" href="~/css/app.css" />
+    <link rel="stylesheet" href="~/css/app.css" />   
+    <link rel="stylesheet" href="~/css/_Layout.css" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/lib/font-awesone/js/all.min.js"></script>
@@ -19,104 +20,44 @@
 </head>
 
 <body>
-    <!-- ======= Header ======= -->
-
-    @if (!User.Identity.IsAuthenticated && !(ViewContext.RouteData.Values["Controller"].ToString() == "Account" &&
-    ViewContext.RouteData.Values["Action"].ToString() == "Login"))
-    {
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ff0000;">
-    <div class="container-fluid">
-    <a class="navbar-brand" href="#">RectiMotos</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ms-auto">
-    <li class="nav-item">
-    <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Login">Iniciar
-    Sesión</a>
-    </li>
-    </ul>
-    </div>
-    </div>
-    </nav>
-
-    }
-
-
+ 
     @if (User.Identity.IsAuthenticated)
     {
         <header id="header" class="header fixed-top d-flex align-items-center">
 
             <div class="d-flex align-items-center justify-content-between">
-                <a href="index.html" class="logo d-flex align-items-center">
-
-                    <span class="d-none d-lg-block text-danger">RectiMotos</span>
-                </a>
+                <a asp-controller="Productos" asp-action="Index"><h4>RECTIMOTOS</h4></a>
                 <i class="bi bi-list toggle-sidebar-btn"></i>
-            </div><!-- End Logo -->
-
-
+            </div>
 
             <nav class="header-nav ms-auto">
                 <ul class="d-flex align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Usarios" asp-action="Edit"><i class="bi bi-person-circle"></i> @User.Identity.Name </a>
+                    </li>
 
-                    <li class="nav-item dropdown pe-3">
-
-                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                            <span class="d-none d-md-block dropdown-toggle ps-2">@User.Identity.Name</span>
-                        </a><!-- End Profile Iamge Icon -->
-
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                            <li class="dropdown-header">
-                                <h6>@User.Identity.Name</h6>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" asp-controller="Usuarios"
-                                    asp-action="EditUser">
-                                    <i class="bi bi-person"></i>
-                                    <span>@User.Identity.Name</span>
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-
-
-
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <form method="post" asp-action="Logout" asp-controller="Account">
-                                        <button type="submit" class="btn btn-link text-danger">Cerrar Sesión</button>
-                                    </form>
-                                </a>
-                            </li>
-
-                        </ul><!-- End Profile Dropdown Items -->
-                    </li><!-- End Profile Nav -->
-
+                    <li class="nav-item">
+                        <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
+                            <button type="submit" class="btn btn-secondary">Cerrar Sesión</button>
+                        </form>
+                    </li>
                 </ul>
-            </nav><!-- End Icons Navigation -->
+            </nav>
 
         </header>
 
         <aside id="sidebar" class="sidebar">
 
             <ul class="sidebar-nav" id="sidebar-nav">
-                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+
+                @if (User.IsInRole("Admin"))
                 {
-                    <li class="nav-item">
+                    @*<li class="nav-item">
                         <a class="nav-link collapsed" asp-area="" asp-controller="Dashboard" asp-action="Index">
                             <i class="bi bi-grid text-danger"></i>
                             <span>Dashboard</span>
                         </a>
-                    </li>
+                    </li>*@
 
                     <li class="nav-item">
                         <a class="nav-link collapsed" asp-controller="Categorias" asp-action="Index">
@@ -150,7 +91,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link collapse" asp-controller="Paises" asp-action="Index">
+                        <a class="nav-link collapsed" asp-controller="Paises" asp-action="Index">
                             <i class="bi bi-globe text-danger"></i>
                             <span>Paises</span>
                         </a>
@@ -171,10 +112,27 @@
             </ul>
         </aside>
     }
+     else
+    {
+        <header id="header" class="header fixed-top d-flex align-items-center">
 
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="index.html" class="logo d-flex align-items-center">
 
+                    <span class="d-none d-lg-block text-danger">Rectimotos</span>
+                </a>
+            </div>
 
+            <nav class="header-nav ms-auto">
+                <ul class="d-flex align-items-center">
 
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    }
 
     <div class="container">
         <main role="main" id="main" class="main">
@@ -182,8 +140,8 @@
         </main>
     </div>
 
-    <footer class="footer text-muted">
-        <div class="container">
+    <footer class="footer text-muted" style="width: 100%;" >
+        <div class="container" style="width: 100%; display: flex; justify-content: center;">
             &copy; 2023 - Rectimotos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

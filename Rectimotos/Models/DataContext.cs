@@ -21,7 +21,6 @@ namespace Rectimotos.Models
 
 
         public DbSet<Ciudad> Ciudades { get; set; }
-
         public DbSet<RolesUsuarios> RolesUsuarios { get; set; }
         public DbSet<Carrito> Carrito { get; set; }
         public DbSet<ProductosVentas> ProductosVentas { get; set; }

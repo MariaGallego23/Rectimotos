@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rectimotos.Models;
+using Rectimotos.Clases.Entidades;
 
 namespace Rectimotos.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         private readonly DataContext _context;
@@ -17,6 +20,16 @@ namespace Rectimotos.Controllers
         {
             _context = context;
         }
+
+        private void PrepareViewData()
+        {
+            List<CiudadViewModel> ciudad = _context.Ciudad.ToList();
+            ViewData["Ciudadess"] = ciudad;
+
+            List<RolesUsuarios> rol = _context.RolesUsuarios.ToList();
+            ViewData["Roless"] = rol;
+        }
+
 
         // GET: Usuarios
         public async Task<IActionResult> Index()
@@ -47,20 +60,43 @@ namespace Rectimotos.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
+            PrepareViewData();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdUser,Cedula,NombreCompleto,Telefono,IdCiudad,Direccion,Imagen,IdRol,Email,Usuario,Contraseña")] UsuariosViewModel usuariosViewModel)
+        public async Task<IActionResult> Create([Bind("IdUser,Cedula,NombreCompleto,Telefono,IdCiudad,Direccion,Imagen,IdRol,Email,Usuario,Contraseña")] UsuariosViewModel model)
         {
-            if (ModelState.IsValid)
+            PrepareViewData();
+            var existingEmail = _context.Usuarios.FirstOrDefault(u => u.Usuario == model.Usuario);
+            var existingUser = _context.Usuarios.FirstOrDefault(u => u.Usuario == model.Usuario);
+            var existingPassword = _context.Usuarios.FirstOrDefault(u => u.Contraseña == model.Contraseña);
+
+            // Verificar si el correo ya existe en la base de datos
+            if (existingEmail != null)
             {
-                _context.Add(usuariosViewModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["ErrorEmail"] = "El Email ya esta en uso, por favor elije otro";
             }
-            return View(usuariosViewModel);
+            if (existingUser != null)
+            {
+                TempData["ErrorUser"] = "El Usuario ya esta en uso, por favor elije otro";
+            }
+            // Verificar si la contraseña ya existe en la base de datos
+            else if (existingPassword != null)
+            {
+                TempData["ErrorPassword"] = "La contraseña ya esta en uso, por favor elije otro";
+            }
+            else
+            {
+                model.Telefono = null;
+                model.Imagen = null;
+
+                _context.Add(model);
+                _context.SaveChanges();
+                TempData["Message"] = "REGISTRO DE USUARIO EXITOSO";
+            }
+            return RedirectToAction("Index");
         }
 
         // GET: Usuarios/Edit/5

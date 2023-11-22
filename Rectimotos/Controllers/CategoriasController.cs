@@ -156,6 +156,25 @@ namespace Rectimotos.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+public async Task<IActionResult> FilterByCategory(int? categoriaId)
+{
+    if (categoriaId == null)
+    {
+        return RedirectToAction(nameof(Index));
+    }
+
+    // Filtrar productos por categoría
+    var productosFiltrados = await _context.Productos
+        .Where(p => p.Categorias.Any(pc => pc.IdCategorias == categoriaId))
+        .ToListAsync();
+
+    // Puedes necesitar adaptar esto según la estructura real de tu modelo y base de datos
+
+    // Pasa los productos filtrados a la vista
+    return View("Index", productosFiltrados);
+}
+
         private bool CategoriasViewModelExists(int id)
         {
           return (_context.Categorias?.Any(e => e.IdCategoria == id)).GetValueOrDefault();

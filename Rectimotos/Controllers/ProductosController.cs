@@ -20,10 +20,10 @@ namespace Rectimotos.Controllers
             _context = context;
         }
 
-        // GET: Productos
+        // // GET: Productos
         public async Task<IActionResult> Index()
         {
-              return _context.Productos != null ? 
+              return _context.Productos != null ?
                           View(await _context.Productos.ToListAsync()) :
                           Problem("Entity set 'DataContext.Productos'  is null.");
         }

@@ -7,16 +7,24 @@ namespace Rectimotos.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+         private readonly DataContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger , DataContext context )
         {
             _logger = logger;
+             _context = context;
         }
 
         public IActionResult Index()
         {
 
-            return View();
+               var viewModel = new InicioViewModel
+    {
+        Productos = _context.Productos.ToList(),
+        Categorias = _context.Categorias.ToList()
+    };
+
+    return View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -30,4 +38,5 @@ namespace Rectimotos.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
 }

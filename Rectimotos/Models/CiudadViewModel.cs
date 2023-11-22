@@ -6,7 +6,7 @@ namespace Rectimotos.Models
     {
         [Key]
         public int IdCiudad { get; set; }
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
         public int IdEstado { get; set; }
     }
 }

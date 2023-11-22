@@ -12,32 +12,29 @@
     
 </head>
 <body>
+    <!-- Otras partes del cuerpo de la página -->
 
-    <div class="producto">
-        <h3>Producto 1</h3>
-        <p>Descripción del Producto 1.</p>
-        <label>
-            <input type="checkbox" name="producto1">Agregar a Carrito
-        </label>
-    </div>
+    @foreach (var producto in Model.Productos)
+    {
+        <div class="producto">
+            <h3>@producto.Nombre</h3>
+            <p>@producto.Descripcion</p>
+            <label>
+                <input type="checkbox" name="@($"producto{producto.IdProducto}")"> Agregar a Carrito
+            </label>
+        </div>
+    }
+    <form method="post" asp-action="FilterByCategory">
+    <label for="categoriaId">Filtrar por categoría:</label>
+    <select name="categoriaId" id="categoriaId">
+        <option value="">Todas las categorías</option>
+        @foreach (var categoria in Model.Categorias)
+        {
+            <option value="@categoria.IdCategoria">@categoria.Nombre</option>
+        }
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
 
-    <div class="producto">
-        <h3>Producto 2</h3>
-        <p>Descripción del Producto 2.</p>
-        <label>
-            <input type="checkbox" name="producto2"> Agregar a Carrito
-        </label>
-    </div>
-
-    <div class="producto">
-        <h3>Producto 3</h3>
-        <p>Descripción del Producto 3.</p>
-        <label>
-            <input type="checkbox" name="producto3"> Agregar a Carrito
-        </label>
-    </div>
-
-    
-    <h1>PAGINA NO FUNCIONAL</h1>
 
 </body>

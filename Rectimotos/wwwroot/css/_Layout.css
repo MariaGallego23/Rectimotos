@@ -5,11 +5,13 @@
     margin: 16px;
 }
 
+html{
+    height: 100%;
+} 
 
-html, body {
-    height: 100% !important;
+body{
+    height: calc(100% - 122px);
 }
-
 
 a.navbar-brand {
     white-space: normal;
@@ -55,64 +57,3 @@ a {
     color: black !important;
   
 }
-
-/*.header {
-    transition: all 0.5s;
-    z-index: 997;
-    height: 60px;
-    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-    background-color: #fff;
-    padding-left: 20px;
-}
-
-    .header .toggle-sidebar-btn {
-        font-size: 32px;
-        padding-left: 10px;
-        cursor: pointer;
-        color: #ff0000;
-    }
-
-    .header-nav ul {
-        list-style: none;
-    }
-
-#main {
-    margin-top: 60px;
-    padding: 20px 30px;
-    transition: all 0.3s;
-}
-
-main {
-    height: 100%;
-}
-
-.toggle-sidebar .sidebar {
-    left: 0;
-}
-
-.sidebar {
-    left: -300px;
-}
-
-.sidebar {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    bottom: 0;
-    width: 300px;
-    z-index: 996;
-    transition: all 0.3s;
-    padding: 20px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #aab7cf transparent;
-    box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-    background-color: #fff;
-}
-
-.logo span {
-    font-size: 26px;
-    font-weight: 700;
-    color: #012970;
-    font-family: "Nunito", sans-serif;
-}*/

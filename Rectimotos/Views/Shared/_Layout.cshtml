@@ -1,155 +1,144 @@
 ﻿@using System.Security.Claims;
-@*@model Rectimotos.Models.UsuariosViewModel*@
 
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title>@ViewData["Title"] - Rectimotos</title>
+    <head>
+        <title>@ViewData["Title"] - Rectimotos</title>
 
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/lib/font-awesone/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/font-awesone/css/all.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    <link rel="stylesheet" href="~/css/app.css" />   
-    <link rel="stylesheet" href="~/css/_Layout.css" />
+        <link rel="stylesheet" href="~/css/app.css" />   
+        <link rel="stylesheet" href="~/css/_Layout.css" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/lib/font-awesone/js/all.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="~/lib/font-awesone/js/all.min.js"></script>
+    </head>
 
-</head>
+    <body>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <header id="header" class="header fixed-top d-flex align-items-center">
 
-<body>
- 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <header id="header" class="header fixed-top d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-between">
+                    <a asp-controller="Productos" asp-action="Index"><h4>RECTIMOTOS</h4></a>
+                    <i class="bi bi-list toggle-sidebar-btn"></i>
+                </div>
 
-            <div class="d-flex align-items-center justify-content-between">
-                <a asp-controller="Productos" asp-action="Index"><h4>RECTIMOTOS</h4></a>
-                <i class="bi bi-list toggle-sidebar-btn"></i>
-            </div>
+                <nav class="header-nav ms-auto">
+                    <ul class="d-flex align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Usarios" asp-action="Edit" asp-route-id="@User.FindFirstValue("IdUser")"><i class="bi bi-person-circle"></i> @User.Identity.Name </a>
+                        </li>
 
-            <nav class="header-nav ms-auto">
-                <ul class="d-flex align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Usarios" asp-action="Edit"><i class="bi bi-person-circle"></i> @User.Identity.Name </a>
-                    </li>
+                        <li class="nav-item">
+                            <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
+                                <button type="submit" class="btn btn-secondary">Cerrar Sesión</button>
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
 
-                    <li class="nav-item">
-                        <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
-                            <button type="submit" class="btn btn-secondary">Cerrar Sesión</button>
-                        </form>
-                    </li>
+            </header>
+
+            <aside id="sidebar" class="sidebar">
+
+                <ul class="sidebar-nav" id="sidebar-nav">
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" asp-controller="Categorias" asp-action="Index">
+                                <i class="bi bi-tags text-danger"></i>
+                                <span>Categorias</span>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" asp-controller="Productos" asp-action="Index">
+                                <i class="bi bi-shop text-danger"></i>
+                                <span>Productos</span>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" asp-controller="Ventas" asp-action="Index">
+                                <i class="bi bi-box2 text-danger"></i>
+                                <span>Pedidos</span>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" asp-controller="Usuarios" asp-action="Index">
+                                <i class="bi bi-person text-danger"></i>
+                                <span>Usuarios</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" asp-controller="Paises" asp-action="Index">
+                                <i class="bi bi-globe text-danger"></i>
+                                <span>Paises</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("User")))
+                    {
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" asp-controller="Ventas" asp-action="Index">
+                                <i class="bi bi-box2 text-danger"></i>
+                                <span>Mis Pedidos</span>
+                            </a>
+                        </li>
+                    }
+
                 </ul>
-            </nav>
+            </aside>
+        }
+         else
+        {
+            <header id="header" class="header fixed-top d-flex align-items-center">
 
-        </header>
+                <div class="d-flex align-items-center justify-content-between">
+                    <a href="index.html" class="logo d-flex align-items-center">
 
-        <aside id="sidebar" class="sidebar">
+                        <span class="d-none d-lg-block text-danger">Rectimotos</span>
+                    </a>
+                </div>
 
-            <ul class="sidebar-nav" id="sidebar-nav">
+                <nav class="header-nav ms-auto">
+                    <ul class="d-flex align-items-center">
 
-                @if (User.IsInRole("Admin"))
-                {
-                    @*<li class="nav-item">
-                        <a class="nav-link collapsed" asp-area="" asp-controller="Dashboard" asp-action="Index">
-                            <i class="bi bi-grid text-danger"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+        }
 
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" asp-controller="Categorias" asp-action="Index">
-                            <i class="bi bi-tags text-danger"></i>
-                            <span>Categorias</span>
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" asp-controller="Productos" asp-action="Index">
-                            <i class="bi bi-shop text-danger"></i>
-                            <span>Productos</span>
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" asp-controller="Ventas" asp-action="Index">
-                            <i class="bi bi-box2 text-danger"></i>
-                            <span>Pedidos</span>
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" asp-controller="Usuarios" asp-action="Index">
-                            <i class="bi bi-person text-danger"></i>
-                            <span>Usuarios</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" asp-controller="Paises" asp-action="Index">
-                            <i class="bi bi-globe text-danger"></i>
-                            <span>Paises</span>
-                        </a>
-                    </li>
-                }
-
-                @if (User.Identity.IsAuthenticated && (User.IsInRole("User")))
-                {
-
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" asp-controller="Ventas" asp-action="Index">
-                            <i class="bi bi-box2 text-danger"></i>
-                            <span>Mis Pedidos</span>
-                        </a>
-                    </li>
-                }
-
-            </ul>
-        </aside>
-    }
-     else
-    {
-        <header id="header" class="header fixed-top d-flex align-items-center">
-
-            <div class="d-flex align-items-center justify-content-between">
-                <a href="index.html" class="logo d-flex align-items-center">
-
-                    <span class="d-none d-lg-block text-danger">Rectimotos</span>
-                </a>
-            </div>
-
-            <nav class="header-nav ms-auto">
-                <ul class="d-flex align-items-center">
-
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
-    }
-
-    <div class="container">
-        <main role="main" id="main" class="main">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="footer text-muted" style="width: 100%;" >
-        <div class="container" style="width: 100%; display: flex; justify-content: center;">
-            &copy; 2023 - Rectimotos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container">
+            <main role="main" id="main" class="main">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/main.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+        <footer class="footer text-muted" style="width: 100%;" >
+            <div class="container" style="width: 100%; display: flex; justify-content: end;">
+                &copy; 2023 - Rectimotos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
 
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/main.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 </html>

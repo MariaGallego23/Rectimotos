@@ -9,32 +9,62 @@
 
     <title>Productos</title>
     <link rel="stylesheet" href="~/css/Home.css" />
-    
+
 </head>
+
 <body>
     <!-- Otras partes del cuerpo de la página -->
+
+
+
+    <div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="carritoModalLabel">Carrito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se agregarán los productos del carrito -->
+                </div>
+
+                <div class="modal-footer">
+                    <p id="total">Total: $0</p>
+                    <button type="button" class="btn btn-secondary" id="vaciar-carrito">Vaciar Carrito</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @foreach (var producto in Model.Productos)
     {
         <div class="producto">
             <h3>@producto.Nombre</h3>
             <p>@producto.Descripcion</p>
+            <span>@producto.Precio</span>
             <label>
-                <input type="checkbox" name="@($"producto{producto.IdProducto}")"> Agregar a Carrito
+                <button id="btnProducto" class="btn btn-primary" name="@($"producto{producto.IdProducto}")">
+                    <i class="fas fa-plus"></i> Agregar a Carrito
+                </button>
             </label>
         </div>
     }
     <form method="post" asp-action="FilterByCategory">
-    <label for="categoriaId">Filtrar por categoría:</label>
-    <select name="categoriaId" id="categoriaId">
-        <option value="">Todas las categorías</option>
-        @foreach (var categoria in Model.Categorias)
-        {
-            <option value="@categoria.IdCategoria">@categoria.Nombre</option>
-        }
-    </select>
-    <button type="submit">Filtrar</button>
-</form>
+        <label for="categoriaId">Filtrar por categoría:</label>
+        <select name="categoriaId" id="categoriaId">
+            <option value="">Todas las categorías</option>
+            @foreach (var categoria in Model.Categorias)
+            {
+                <option value="@categoria.IdCategoria">@categoria.Nombre</option>
+            }
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
 
+
+
+    <script src="~/js/carrito.js" asp-append-version="true"></script>
 
 </body>

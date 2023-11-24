@@ -20,7 +20,7 @@ namespace Rectimotos.Controllers
 
         private void PrepareViewData()
         {
-            List<Ciudad> ciudad = _context.Ciudades.ToList();
+            List<Ciudad> ciudad = _context.Ciudad.ToList();
             ViewData["Ciudades"] = ciudad;
         }
 
@@ -73,6 +73,7 @@ namespace Rectimotos.Controllers
 
         public IActionResult Register()
         {
+            PrepareViewData();
             return View();
         }
 
@@ -99,6 +100,8 @@ namespace Rectimotos.Controllers
             }
             else
             {
+                PrepareViewData();
+
                 model.Telefono = null;
                 model.IdCiudad = null;
                 model.Imagen = null;

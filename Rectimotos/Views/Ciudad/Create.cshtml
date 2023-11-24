@@ -1,7 +1,7 @@
-﻿@model Rectimotos.Clases.Entidades.Paises
+﻿@model Rectimotos.Clases.Ciudad
 
 <head>
-    <title>CREAR PAISES | RECTIMOTOS</title>
+    <title>CREAR CIUDADES| RECTIMOTOS</title>
 
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h4>Creación de Paises</h4>
+    <h4>Creación de Ciudades</h4>
     <hr />
 
     <div class="container col-10">
@@ -25,14 +25,19 @@
 
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label asp-for="Nombre" class="control-label">Nombre del Pais</label>
+                            <label asp-for="Nombre" class="control-label">Nombre de la Ciudad:</label>
                             <input asp-for="Nombre" class="form-control" />
                             <span asp-validation-for="Nombre" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                        <div class="form-group col-md-6">
+                            <label asp-for="IdEstado" class="control-label">Estado / Departamento:</label>
+                            <input asp-for="IdEstado" class="form-control" readonly />
+                            <span asp-validation-for="IdEstado" class="text-danger"></span>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Crear" class="btn btn-primary" />
                     </div>
                 </div>
             </form>
@@ -40,6 +45,6 @@
     </div>
 
     <div>
-        <a asp-action="Index">Volver sin Crear</a>
+        <a asp-action="Index" asp-route-idEstado="@ViewBag.Estado">Volver sin Crear</a>
     </div>
 </body>

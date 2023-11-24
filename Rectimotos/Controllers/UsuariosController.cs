@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rectimotos.Models;
 using Rectimotos.Clases.Entidades;
+using Rectimotos.Clases;
 
 namespace Rectimotos.Controllers
 {
@@ -23,7 +24,7 @@ namespace Rectimotos.Controllers
 
         private void PrepareViewData()
         {
-            List<CiudadViewModel> ciudad = _context.Ciudad.ToList();
+            List<Ciudad> ciudad = _context.Ciudad.ToList();
             ViewData["Ciudadess"] = ciudad;
 
             List<RolesUsuarios> rol = _context.RolesUsuarios.ToList();

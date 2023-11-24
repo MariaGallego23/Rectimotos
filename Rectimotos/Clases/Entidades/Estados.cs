@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Rectimotos.Models
+namespace Rectimotos.Clases.Entidades
 {
-    public class EstadosViewModel
+    public class Estados
     {
         [Key]
         public int IdEstado { get; set; }
         public string Nombre { get; set; }
         public int IdPais { get; set; }
-
     }
 }

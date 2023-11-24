@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Rectimotos.Clases.Entidades;
 using Rectimotos.Models;
 
 namespace Rectimotos.Controllers
 {
-    [Authorize]
-
     public class PaisesController : Controller
     {
         private readonly DataContext _context;
@@ -21,77 +19,72 @@ namespace Rectimotos.Controllers
             _context = context;
         }
 
+        // GET: Paises
         public async Task<IActionResult> Index()
         {
             var paises = await _context.Paises.ToListAsync();
             return View(paises);
         }
 
-
-        // GET: Pais/Details/5
+        // GET: Paises/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Paises == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var paisViewModel = await _context.Paises
-                .FirstOrDefaultAsync(m => m.IdPais == id);
-            if (paisViewModel == null)
+            var pais = await _context.Paises.FirstOrDefaultAsync(m => m.IdPais == id);
+            if (pais == null)
             {
                 return NotFound();
             }
 
-            return View(paisViewModel);
+            return View(pais);
         }
 
-        // GET: Pais/Create
+        // GET: Paises/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Pais/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Paises/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPais,Nombre")] PaisViewModel paisViewModel)
+        public async Task<IActionResult> Create([Bind("IdPais,Nombre")] Paises pais)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(paisViewModel);
+                _context.Add(pais);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(paisViewModel);
+            return View(pais);
         }
 
-        // GET: Pais/Edit/5
+        // GET: Paises/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Paises == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var paisViewModel = await _context.Paises.FindAsync(id);
-            if (paisViewModel == null)
+            var pais = await _context.Paises.FindAsync(id);
+            if (pais == null)
             {
                 return NotFound();
             }
-            return View(paisViewModel);
+            return View(pais);
         }
 
-        // POST: Pais/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Paises/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPais,Nombre")] PaisViewModel paisViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("IdPais,Nombre")] Paises pais)
         {
-            if (id != paisViewModel.IdPais)
+            if (id != pais.IdPais)
             {
                 return NotFound();
             }
@@ -100,12 +93,12 @@ namespace Rectimotos.Controllers
             {
                 try
                 {
-                    _context.Update(paisViewModel);
+                    _context.Update(pais);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PaisViewModelExists(paisViewModel.IdPais))
+                    if (!PaisesExists(pais.IdPais))
                     {
                         return NotFound();
                     }
@@ -116,49 +109,40 @@ namespace Rectimotos.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(paisViewModel);
+            return View(pais);
         }
 
-        // GET: Pais/Delete/5
+        // GET: Paises/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Paises == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var paisViewModel = await _context.Paises
-                .FirstOrDefaultAsync(m => m.IdPais == id);
-            if (paisViewModel == null)
+            var pais = await _context.Paises.FirstOrDefaultAsync(m => m.IdPais == id);
+            if (pais == null)
             {
                 return NotFound();
             }
 
-            return View(paisViewModel);
+            return View(pais);
         }
 
-        // POST: Pais/Delete/5
+        // POST: Paises/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Paises == null)
-            {
-                return Problem("Entity set 'DataContext.Paises'  is null.");
-            }
-            var paisViewModel = await _context.Paises.FindAsync(id);
-            if (paisViewModel != null)
-            {
-                _context.Paises.Remove(paisViewModel);
-            }
-            
+            var pais = await _context.Paises.FindAsync(id);
+            _context.Paises.Remove(pais);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PaisViewModelExists(int id)
+        private bool PaisesExists(int id)
         {
-          return (_context.Paises?.Any(e => e.IdPais == id)).GetValueOrDefault();
+            return _context.Paises.Any(e => e.IdPais == id);
         }
     }
 }

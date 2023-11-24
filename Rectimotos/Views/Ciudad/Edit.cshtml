@@ -1,37 +1,43 @@
-﻿@model Rectimotos.Clases.Entidades.Estados
+﻿@model Rectimotos.Clases.Ciudad
 
 @{
     ViewData["Title"] = "Edit";
 }
+
 <head>
-    <title>ELIMINAR ESTADOS | RECTIMOTOS</title>
+    <title>@ViewData["Title"] - RECTIMOTOS</title>
 
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesone/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/font-awesone/js/all.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body>
-    <h1>Editar</h1>
+    <h1>EDITAR</h1>
 
-    <h4>Estados</h4>
+    <h4>Ciudad</h4>
     <hr />
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="IdEstado" />
+                <input type="hidden" asp-for="IdCiudad" />
                 <div class="form-group">
                     <label asp-for="Nombre" class="control-label"></label>
                     <input asp-for="Nombre" class="form-control" />
                     <span asp-validation-for="Nombre" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="IdPais" class="control-label"></label>
-                    <input asp-for="IdPais" class="form-control" />
-                    <span asp-validation-for="IdPais" class="text-danger"></span>
+                    <label asp-for="IdEstado" class="control-label"></label>
+                    <input asp-for="IdEstado" class="form-control" />
+                    <span asp-validation-for="IdEstado" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
@@ -41,6 +47,6 @@
     </div>
 
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index" asp-route-idEstado="@ViewBag.Estado">Volver sin Editar</a>
     </div>
 </body>

@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Rectimotos.Clases.Entidades;
 using Rectimotos.Models;
 
 namespace Rectimotos.Controllers
 {
-    [Authorize]
     public class EstadosController : Controller
     {
         private readonly DataContext _context;
@@ -20,80 +19,87 @@ namespace Rectimotos.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int id)
+        private void PrepareViewData(int idPais)
         {
-            var estados = await _context.Estados
-                .Where(e => e.IdPais == id).ToListAsync();
-
-            ViewBag.Pais = id;
-            return View(estados);
+            ViewBag.Pais = idPais;
         }
 
+        // GET: Estados
+        public async Task<IActionResult> Index(int idPais)
+        {
+            var estados = await _context.Estados
+                .Where(e => e.IdPais == idPais)
+                .ToListAsync();
+
+            ViewBag.Pais = idPais;
+            return View(estados);
+        }
 
         // GET: Estados/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Estados == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var estadosViewModel = await _context.Estados
-                .FirstOrDefaultAsync(m => m.IdEstado == id);
-            if (estadosViewModel == null)
+            var estados = await _context.Estados.FirstOrDefaultAsync(m => m.IdEstado == id);
+            if (estados == null)
             {
                 return NotFound();
             }
 
-            return View(estadosViewModel);
+            return View(estados);
         }
 
         // GET: Estados/Create
-        public IActionResult Create()
+        public IActionResult Create(int idPais)
         {
+            ViewBag.Pais = idPais;
+
+            PrepareViewData(idPais);
             return View();
         }
 
         // POST: Estados/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEstado,Nombre,IdPais")] EstadosViewModel estadosViewModel)
+        public async Task<IActionResult> Create([Bind("IdEstado,Nombre,IdPais")] Estados estados)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(estadosViewModel);
+                _context.Add(estados);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { idPais = estados.IdPais });
             }
-            return View(estadosViewModel);
+
+            // Si el modelo no es válido, vuelve a cargar la vista Create
+            PrepareViewData(estados.IdPais);
+            return View(estados);
         }
 
         // GET: Estados/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Estados == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var estadosViewModel = await _context.Estados.FindAsync(id);
-            if (estadosViewModel == null)
+            var estados = await _context.Estados.FindAsync(id);
+            if (estados == null)
             {
                 return NotFound();
             }
-            return View(estadosViewModel);
+            return View(estados);
         }
 
         // POST: Estados/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdEstado,Nombre,IdPais")] EstadosViewModel estadosViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("IdEstado,Nombre,IdPais")] Estados estados)
         {
-            if (id != estadosViewModel.IdEstado)
+            if (id != estados.IdEstado)
             {
                 return NotFound();
             }
@@ -102,12 +108,12 @@ namespace Rectimotos.Controllers
             {
                 try
                 {
-                    _context.Update(estadosViewModel);
+                    _context.Update(estados);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EstadosViewModelExists(estadosViewModel.IdEstado))
+                    if (!EstadosExists(estados.IdEstado))
                     {
                         return NotFound();
                     }
@@ -116,27 +122,28 @@ namespace Rectimotos.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { idPais = estados.IdPais });
             }
-            return View(estadosViewModel);
+            PrepareViewData(estados.IdPais);
+
+            return View(estados);
         }
 
         // GET: Estados/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Estados == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var estadosViewModel = await _context.Estados
-                .FirstOrDefaultAsync(m => m.IdEstado == id);
-            if (estadosViewModel == null)
+            var estados = await _context.Estados.FirstOrDefaultAsync(m => m.IdEstado == id);
+            if (estados == null)
             {
                 return NotFound();
             }
 
-            return View(estadosViewModel);
+            return View(estados);
         }
 
         // POST: Estados/Delete/5
@@ -144,23 +151,19 @@ namespace Rectimotos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Estados == null)
-            {
-                return Problem("Entity set 'DataContext.Estados'  is null.");
-            }
-            var estadosViewModel = await _context.Estados.FindAsync(id);
-            if (estadosViewModel != null)
-            {
-                _context.Estados.Remove(estadosViewModel);
-            }
-            
+            var estados = await _context.Estados.FindAsync(id);
+            _context.Estados.Remove(estados);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            PrepareViewData(estados.IdPais);
+
+            return RedirectToAction(nameof(Index), new { idPais = estados.IdPais });
         }
 
-        private bool EstadosViewModelExists(int id)
+        private bool EstadosExists(int id)
         {
-          return (_context.Estados?.Any(e => e.IdEstado == id)).GetValueOrDefault();
+            return _context.Estados.Any(e => e.IdEstado == id);
         }
+
+
     }
 }

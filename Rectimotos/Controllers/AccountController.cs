@@ -85,7 +85,7 @@ namespace Rectimotos.Controllers
         }
 
         [HttpPost] // REGISTRARSE SI Y SOLO SI ES CLIENTE
-        public IActionResult Register(UsuariosViewModel model)
+        public IActionResult Register(UsuariosViewModel model, [FromServices] IWebHostEnvironment webHostEnvironment)
         {
             PrepareViewData();
 
@@ -111,6 +111,26 @@ namespace Rectimotos.Controllers
             {
                 PrepareViewData();
 
+                // Verificar si la imagen se ha cargado
+                if (model.ImagenArchivo != null && model.ImagenArchivo.Length > 0)
+                {
+                    var imagePath = Path.Combine(webHostEnvironment.WebRootPath, "Imagenes");
+
+                    if (!Directory.Exists(imagePath))
+                    {
+                        Directory.CreateDirectory(imagePath);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImagenArchivo.FileName;
+                    var filePath = Path.Combine(imagePath, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        model.ImagenArchivo.CopyTo(fileStream);
+                    }
+
+                    model.Imagen = Path.Combine("Imagenes", uniqueFileName);
+                }
                 model.IdRol = 2;
 
                 _context.Add(model);

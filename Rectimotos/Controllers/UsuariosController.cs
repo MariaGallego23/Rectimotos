@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Rectimotos.Models;
 using Rectimotos.Clases.Entidades;
 using Rectimotos.Clases;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Rectimotos.Controllers
 {
@@ -16,10 +17,14 @@ namespace Rectimotos.Controllers
     public class UsuariosController : Controller
     {
         private readonly DataContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public UsuariosController(DataContext context)
+
+        public UsuariosController(DataContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
+
         }
 
         private void PrepareViewData()
@@ -68,7 +73,7 @@ namespace Rectimotos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdUser,Cedula,NombreCompleto,Telefono,IdCiudad,Direccion,Imagen,IdRol,Email,Usuario,Contraseña")] UsuariosViewModel model)
+        public async Task<IActionResult> Create([Bind("IdUser,Cedula,NombreCompleto,Telefono,IdCiudad,Direccion,Imagen,IdRol,Email,Usuario,Contraseña")] UsuariosViewModel model, [FromServices] IWebHostEnvironment webHostEnvironment)
         {
             PrepareViewData();
             var existingEmail = _context.Usuarios.FirstOrDefault(u => u.Usuario == model.Usuario);
@@ -91,6 +96,29 @@ namespace Rectimotos.Controllers
             }
             else
             {
+                PrepareViewData();
+
+                // Verificar si la imagen se ha cargado
+                if (model.ImagenArchivo != null && model.ImagenArchivo.Length > 0)
+                {
+                    var imagePath = Path.Combine(webHostEnvironment.WebRootPath, "Imagenes");
+
+                    if (!Directory.Exists(imagePath))
+                    {
+                        Directory.CreateDirectory(imagePath);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImagenArchivo.FileName;
+                    var filePath = Path.Combine(imagePath, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        model.ImagenArchivo.CopyTo(fileStream);
+                    }
+
+                    model.Imagen = Path.Combine("Imagenes", uniqueFileName);
+                }
+
                 _context.Add(model);
                 _context.SaveChanges();
                 TempData["Message"] = "REGISTRO DE USUARIO EXITOSO";
@@ -99,6 +127,7 @@ namespace Rectimotos.Controllers
         }
 
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             PrepareViewData();
@@ -108,17 +137,34 @@ namespace Rectimotos.Controllers
                 return NotFound();
             }
 
-            var usuarios = await _context.Usuarios.FindAsync(id);
-            if (usuarios == null)
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
             {
                 return NotFound();
             }
-            return View(usuarios);
+
+            var viewModel = new UsuariosViewModel
+            {
+                IdUser = usuario.IdUser,
+                Cedula = usuario.Cedula,
+                NombreCompleto = usuario.NombreCompleto,
+                Telefono = usuario.Telefono,
+                IdCiudad = usuario.IdCiudad,
+                Direccion = usuario.Direccion,
+                Imagen = usuario.Imagen,
+                IdRol = usuario.IdRol,
+                Email = usuario.Email,
+                Usuario = usuario.Usuario,
+                Contraseña = usuario.Contraseña
+            };
+
+            return View(viewModel);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdUser,Cedula,NombreCompleto,Telefono,IdCiudad,Direccion,Imagen,IdRol,Email,Usuario,Contraseña")] UsuariosViewModel model)
+        public async Task<IActionResult> Edit(int id, UsuariosViewModel model, IFormFile ImagenArchivo)
         {
             PrepareViewData();
 
@@ -128,15 +174,48 @@ namespace Rectimotos.Controllers
             }
             else
             {
-                _context.Update(model);
+                if (ImagenArchivo != null && ImagenArchivo.Length > 0)
+                {
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "Imagenes");
+
+                    if (!Directory.Exists(imagePath))
+                    {
+                        Directory.CreateDirectory(imagePath);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + ImagenArchivo.FileName;
+                    var filePath = Path.Combine(imagePath, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        ImagenArchivo.CopyTo(fileStream);
+                    }
+
+                    model.Imagen = Path.Combine("Imagenes", uniqueFileName);
+                }
+                var usuario = await _context.Usuarios.FindAsync(id);
+
+                usuario.Imagen = model.Imagen;
+                usuario.Cedula = model.Cedula;
+                usuario.NombreCompleto = model.NombreCompleto;
+                usuario.Telefono = model.Telefono;
+                usuario.IdCiudad = model.IdCiudad;
+                usuario.Direccion = model.Direccion;
+                usuario.IdRol = model.IdRol;
+                usuario.Email = model.Email;
+                usuario.Usuario = model.Usuario;
+                usuario.Contraseña = model.Contraseña;
+
+                _context.Update(usuario);
                 await _context.SaveChangesAsync();
 
                 TempData["Message"] = "CAMBIO EXITOSO";
+
             }
-            return RedirectToAction("Edit");
+            return RedirectToAction("Edit", new { id = model.IdUser });
         }
-
-
+ 
+       
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

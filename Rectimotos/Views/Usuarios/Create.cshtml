@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col-md-12">
 
-                        <form asp-action="Create">
+                        <form asp-action="Create" method="post" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="card-body">
@@ -76,9 +76,9 @@
                                     </div>
 
                                     <div class="form-group col-6">
-                                        <label asp-for="Imagen" class="control-label">Foto de Perfil: (Opcional)</label>
-                                        <input asp-for="Imagen" class="form-control" />
-                                        <span asp-validation-for="Imagen" class="text-danger"></span>
+                                        <label asp-for="ImagenArchivo" class="control-label">Foto de Perfil (Opcional):</label>
+                                        <input asp-for="ImagenArchivo" type="file" class="form-control" name="ImagenArchivo" />
+                                        <span asp-validation-for="ImagenArchivo" class="text-danger"></span>
                                     </div>
                                 </div>
 

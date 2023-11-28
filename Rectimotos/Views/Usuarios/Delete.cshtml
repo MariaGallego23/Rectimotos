@@ -1,14 +1,8 @@
 ﻿@model Rectimotos.Models.UsuariosViewModel
 
-@{
-    ViewData["Title"] = "Delete";
-}
-
-<h1>Delete</h1>
 
 <h3>SEGURO QUE DESEAS ELIMINAR ESTE USUARIO?</h3>
 <div>
-    <h4>UsuariosViewModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -75,7 +69,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdUser" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
         <a asp-action="Index">Volver a la lista</a>
     </form>
 </div>

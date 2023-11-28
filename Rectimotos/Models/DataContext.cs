@@ -22,6 +22,13 @@ namespace Rectimotos.Models
         public DbSet<Carrito> Carrito { get; set; }
         public DbSet<ProductosVentas> ProductosVentas { get; set; }
         public DbSet<Reseñas> Reseñas { get; set; }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UsuariosViewModel>()
+                .Property(u => u.Imagen)
+                .HasMaxLength(255); 
+        }
+
     }
 }

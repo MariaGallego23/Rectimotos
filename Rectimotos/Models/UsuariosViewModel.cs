@@ -8,7 +8,7 @@ namespace Rectimotos.Models
         public int IdUser { get; set; }
         public int Cedula { get; set; }
         public string NombreCompleto { get; set; }
-        public int? Telefono { get; set; }
+        public string? Telefono { get; set; }
         public int? IdCiudad { get; set; }
         public string? Direccion { get; set; }
         public int? Imagen { get; set; }

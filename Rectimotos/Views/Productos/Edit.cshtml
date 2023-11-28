@@ -1,8 +1,6 @@
 ﻿@model Rectimotos.Models.ProductosViewModel
-
-@{
-    ViewData["Title"] = "Edit";
-}
+@using Rectimotos.Clases
+@using Rectimotos.Clases.Entidades;
 
 <div class="card">
     <div class="card-header">
@@ -12,29 +10,45 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdProducto" />
-            <div class="form-group">
+
+            <div class="form-group col-md-6">
                 <label asp-for="Nombre" class="form-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group col-md-6">
                 <label asp-for="Descripcion" class="form-label"></label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group col-md-6">
+                <label asp-for="IdCategoria" class="control-label">Categoria:</label>
+                <select asp-for="IdCategoria" class="form-control" required>
+                    <option value="" selected>Seleccionar</option>
+                    @foreach (var Categoria in ViewData["Categoriass"] as List<CategoriasViewModel>)
+                    {
+                        <option value="@Categoria.IdCategoria">@Categoria.Nombre</option>
+                    }
+                </select>
+                <span asp-validation-for="IdCategoria" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-6">
                 <label asp-for="Precio" class="form-label"></label>
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group col-md-6">
                 <label asp-for="Existencias" class="form-label"></label>
                 <input asp-for="Existencias" class="form-control" />
                 <span asp-validation-for="Existencias" class="text-danger"></span>
             </div>
+
             <div class="form-group mt-3">
                 <button type="submit" class="btn btn-primary">Editar</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
             </div>
         </form>
     </div>

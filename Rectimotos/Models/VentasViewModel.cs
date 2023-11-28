@@ -10,6 +10,7 @@ namespace Rectimotos.Models
         public int IdUsuario { get; set; }
         public int Cantidad { get; set; }
         public string? Observaciones { get; set; }
+        public int IdEstado { get; set; }
 
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Rectimotos.Clases;
 using Rectimotos.Models;
 
 namespace Rectimotos.Controllers
@@ -20,6 +21,12 @@ namespace Rectimotos.Controllers
             _context = context;
         }
 
+        private void PrepareViewData()
+        {
+            List<CategoriasViewModel> Categoria = _context.Categorias.ToList();
+            ViewData["Categoriass"] = Categoria;
+        }
+
         // // GET: Productos
         public async Task<IActionResult> Index()
         {
@@ -28,39 +35,40 @@ namespace Rectimotos.Controllers
                           Problem("Entity set 'DataContext.Productos'  is null.");
         }
 
-        // GET: Productos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Productos == null)
-            {
-                return NotFound();
-            }
+        //// GET: Productos/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null || _context.Productos == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var productosViewModel = await _context.Productos
-                .FirstOrDefaultAsync(m => m.IdProducto == id);
-            if (productosViewModel == null)
-            {
-                return NotFound();
-            }
+        //    var productosViewModel = await _context.Productos
+        //        .FirstOrDefaultAsync(m => m.IdProducto == id);
+        //    if (productosViewModel == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(productosViewModel);
-        }
+        //    return View(productosViewModel);
+        //}
 
         // GET: Productos/Create
         public IActionResult Create()
         {
+            PrepareViewData();
             return View();
         }
 
-        // POST: Productos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProducto,Nombre,Descripcion,Precio,Existencias")] ProductosViewModel productosViewModel)
+        public async Task<IActionResult> Create([Bind("IdProducto,Nombre,Descripcion,IdCategoria,Precio,Existencias")] ProductosViewModel productosViewModel)
         {
+            PrepareViewData();
             if (ModelState.IsValid)
             {
+                PrepareViewData();
+
                 _context.Add(productosViewModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -71,6 +79,8 @@ namespace Rectimotos.Controllers
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            PrepareViewData();
+
             if (id == null || _context.Productos == null)
             {
                 return NotFound();
@@ -84,13 +94,12 @@ namespace Rectimotos.Controllers
             return View(productosViewModel);
         }
 
-        // POST: Productos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+     
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,Nombre,Descripcion,Precio,Existencias")] ProductosViewModel productosViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,Nombre,Descripcion,IdCategoria,Precio,Existencias")] ProductosViewModel productosViewModel)
         {
+            PrepareViewData();
             if (id != productosViewModel.IdProducto)
             {
                 return NotFound();

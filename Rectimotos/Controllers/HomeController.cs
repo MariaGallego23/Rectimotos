@@ -17,12 +17,11 @@ namespace Rectimotos.Controllers
 
         public IActionResult Index()
         {
-
                var viewModel = new InicioViewModel
-    {
-        Productos = _context.Productos.ToList(),
-        Categorias = _context.Categorias.ToList()
-    };
+                {
+                    Productos = _context.Productos.ToList(),
+                    Categorias = _context.Categorias.ToList()
+                };
 
     return View(viewModel);
         }

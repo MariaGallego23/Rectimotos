@@ -1,79 +1,199 @@
 ﻿@model Rectimotos.Models.UsuariosViewModel
+@using Rectimotos.Clases
+@using Rectimotos.Clases.Entidades;
 
-@{
-    ViewData["Title"] = "Edit";
-}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>EDITAR USUARIO | MONTACARGAS AM&M</title>
 
-<h1>Edit</h1>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-<h4>UsuariosViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdUser" />
-            <div class="form-group">
-                <label asp-for="Cedula" class="control-label"></label>
-                <input asp-for="Cedula" class="form-control" />
-                <span asp-validation-for="Cedula" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombreCompleto" class="control-label"></label>
-                <input asp-for="NombreCompleto" class="form-control" />
-                <span asp-validation-for="NombreCompleto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdCiudad" class="control-label"></label>
-                <input asp-for="IdCiudad" class="form-control" />
-                <span asp-validation-for="IdCiudad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Imagen" class="control-label"></label>
-                <input asp-for="Imagen" class="form-control" />
-                <span asp-validation-for="Imagen" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdRol" class="control-label"></label>
-                <input asp-for="IdRol" class="form-control" />
-                <span asp-validation-for="IdRol" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Usuario" class="control-label"></label>
-                <input asp-for="Usuario" class="form-control" />
-                <span asp-validation-for="Usuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contraseña" class="control-label"></label>
-                <input asp-for="Contraseña" class="form-control" />
-                <span asp-validation-for="Contraseña" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        <link rel="stylesheet" href="~/css/Register.css" />
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="expires" content="0">
+    </head>
+
+    <body>
+        <div class="wrapper pb-5">
+
+            <center><h5>EDITAR MI USUARIO</h5></center>
+            <hr />
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="card-body">
+                                <input type="hidden" asp-for="IdUser" />
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="Cedula" class="control-label">Número de Documento:</label>
+                                        <input asp-for="Cedula" class="form-control"/>
+                                        <span asp-validation-for="Cedula" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        <label asp-for="NombreCompleto" class="control-label">Nombre Completo:</label>
+                                        <input asp-for="NombreCompleto" class="form-control"/>
+                                        <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="Telefono" class="control-label">Telefono:</label>
+                                        <input asp-for="Telefono" class="form-control" />
+                                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        <label asp-for="IdCiudad" class="control-label">Ciudad:</label>
+                                        <select asp-for="IdCiudad" class="form-control">
+                                            @foreach (var Ciudad in ViewData["Ciudadess"] as List<Ciudad>)
+                                            {
+                                                <option value="@Ciudad.IdCiudad">@Ciudad.Nombre</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="IdCiudad" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="Direccion" class="control-label">Dirección:</label>
+                                        <input asp-for="Direccion" class="form-control" />
+                                        <span asp-validation-for="Direccion" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        <label asp-for="Imagen" class="control-label">Imagen</label>
+                                        <input asp-for="Imagen" value="" class="form-control" />
+                                        <span asp-validation-for="Imagen" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="IdRol" class="control-label">Tipo de Usuario:</label>
+                                        <input asp-for="IdRol" class="form-control" hidden readonly />
+                                        <select asp-for="IdRol" class="form-control" disabled>
+                                            @foreach (var Rol in ViewData["Roless"] as List<RolesUsuarios>)
+                                            {
+                                                <option value="@Rol.IdRol">@Rol.Descripcion</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="IdRol" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        <label asp-for="Email" class="control-label">Correo Electronico:</label>
+                                        <input asp-for="Email" class="form-control" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="Usuario" class="control-label">Usuario:</label>
+                                        <input asp-for="Usuario" class="form-control" />
+                                        <span asp-validation-for="Usuario" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        <label asp-for="Contraseña" class="control-label">Contraseña:</label>
+                                        <input asp-for="Contraseña" type="password" class="form-control" id="Contraseña" />
+                                        <span id="togglePassword" onclick="togglePasswordVisibility()"><i class="bi bi-eye"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="form-group col-3">
+                                            <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a asp-controller="Home" asp-action="Index">Volver sin Editar</a>
+        </div>
+
+        @*LLAMADO DEL JS PARA MENSAJES*@
+        <div id="customModal" class="custom-modal">
+            <div class="custom-modal-content">
+                <span class="custom-modal-close" id="modalClose">&times;</span>
+                <p id="modalMessage"></p>
+            </div>
+        </div>
+
+        @*MOSTRAR MODALES CON MENSAJES DE EXITO O ERROR*@
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var messageType = '@(TempData["MessageType"] as string)';
+                var successMessage = '@(TempData["Message"] as string)';
+
+
+                var messageText = successMessage || errorMessage;
+
+                if (messageText) {
+                    var modal = document.getElementById("customModal");
+                    var modalMessage = document.getElementById("modalMessage");
+                    var modalClose = document.getElementById("modalClose");
+
+                    modalMessage.innerText = messageText;
+
+                    if (messageType === 'success') {
+                        modalMessage.style.color = 'green';
+                    } else if (messageType === 'error') {
+                        modalMessage.style.color = 'red';
+                    }
+
+                    modal.style.display = "block";
+
+                    modalClose.onclick = function () {
+                        modal.style.display = "none";
+                    };
+
+                    window.onclick = function (event) {
+                        if (event.target === modal) {
+                            modal.style.display = "none";
+                        }
+                    };
+                }
+            });
+        </script>
+
+        @*CONTRASEÑA*@
+        <script>
+            function togglePasswordVisibility() {
+                var passwordField = document.getElementById('Contraseña');
+                var togglePasswordIcon = document.getElementById('togglePassword');
+
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+
+                } else {
+                    passwordField.type = 'password';
+
+                }
+            }
+        </script>
+    </body>
+</html>

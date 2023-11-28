@@ -58,6 +58,7 @@ namespace Rectimotos.Controllers
             return View(usuariosViewModel);
         }
 
+
         // GET: Usuarios/Create
         public IActionResult Create()
         {
@@ -90,9 +91,6 @@ namespace Rectimotos.Controllers
             }
             else
             {
-                model.Telefono = null;
-                model.Imagen = null;
-
                 _context.Add(model);
                 _context.SaveChanges();
                 TempData["Message"] = "REGISTRO DE USUARIO EXITOSO";
@@ -100,53 +98,44 @@ namespace Rectimotos.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Usuarios/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
+            PrepareViewData();
+
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
             }
 
-            var usuariosViewModel = await _context.Usuarios.FindAsync(id);
-            if (usuariosViewModel == null)
+            var usuarios = await _context.Usuarios.FindAsync(id);
+            if (usuarios == null)
             {
                 return NotFound();
             }
-            return View(usuariosViewModel);
+            return View(usuarios);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdUser,Cedula,NombreCompleto,Telefono,IdCiudad,Direccion,Imagen,IdRol,Email,Usuario,Contraseña")] UsuariosViewModel usuariosViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("IdUser,Cedula,NombreCompleto,Telefono,IdCiudad,Direccion,Imagen,IdRol,Email,Usuario,Contraseña")] UsuariosViewModel model)
         {
-            if (id != usuariosViewModel.IdUser)
+            PrepareViewData();
+
+            if (id != model.IdUser)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            else
             {
-                try
-                {
-                    _context.Update(usuariosViewModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuariosViewModelExists(usuariosViewModel.IdUser))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(model);
+                await _context.SaveChangesAsync();
+
+                TempData["Message"] = "CAMBIO EXITOSO";
             }
-            return View(usuariosViewModel);
+            return RedirectToAction("Edit");
         }
+
 
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)

@@ -28,23 +28,23 @@ namespace Rectimotos.Controllers
                           Problem("Entity set 'DataContext.Categorias'  is null.");
         }
 
-        // GET: Categorias/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Categorias == null)
-            {
-                return NotFound();
-            }
+        //// GET: Categorias/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null || _context.Categorias == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var categoriasViewModel = await _context.Categorias
-                .FirstOrDefaultAsync(m => m.IdCategoria == id);
-            if (categoriasViewModel == null)
-            {
-                return NotFound();
-            }
+        //    var categoriasViewModel = await _context.Categorias
+        //        .FirstOrDefaultAsync(m => m.IdCategoria == id);
+        //    if (categoriasViewModel == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(categoriasViewModel);
-        }
+        //    return View(categoriasViewModel);
+        //}
 
         // GET: Categorias/Create
         public IActionResult Create()
@@ -52,9 +52,6 @@ namespace Rectimotos.Controllers
             return View();
         }
 
-        // POST: Categorias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdCategoria,Nombre")] CategoriasViewModel categoriasViewModel)
@@ -84,9 +81,6 @@ namespace Rectimotos.Controllers
             return View(categoriasViewModel);
         }
 
-        // POST: Categorias/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdCategoria,Nombre")] CategoriasViewModel categoriasViewModel)
@@ -156,24 +150,24 @@ namespace Rectimotos.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-public async Task<IActionResult> FilterByCategory(int? categoriaId)
-{
-    if (categoriaId == null)
-    {
-        return RedirectToAction(nameof(Index));
-    }
+        //[HttpPost]
+        //public async Task<IActionResult> FilterByCategory(int? categoriaId)
+        //{
+        //    if (categoriaId == null)
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-    // Filtrar productos por categoría
-    var productosFiltrados = await _context.Productos
-        .Where(p => p.Categorias.Any(pc => pc.IdCategorias == categoriaId))
-        .ToListAsync();
+        //    // Filtrar productos por categoría
+        //    var productosFiltrados = await _context.Productos
+        //        .Where(p => p.Categorias.Any(pc => pc.IdCategorias == categoriaId))
+        //        .ToListAsync();
 
-    // Puedes necesitar adaptar esto según la estructura real de tu modelo y base de datos
+        //    // Puedes necesitar adaptar esto según la estructura real de tu modelo y base de datos
 
-    // Pasa los productos filtrados a la vista
-    return View("Index", productosFiltrados);
-}
+        //    // Pasa los productos filtrados a la vista
+        //    return View("Index", productosFiltrados);
+        //}
 
         private bool CategoriasViewModelExists(int id)
         {

@@ -21,7 +21,7 @@ namespace Rectimotos.Controllers
         private void PrepareViewData()
         {
             List<Ciudad> ciudad = _context.Ciudad.ToList();
-            ViewData["Ciudades"] = ciudad;
+            ViewData["Ciudadess"] = ciudad;
         }
 
         // LOGEARSE
@@ -41,6 +41,7 @@ namespace Rectimotos.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, usuario.Usuario),
+                    new Claim("IdUser", usuario.IdUser.ToString()),
                     new Claim("Cedula", usuario.Cedula.ToString()),
                     new Claim("TipoUsuario", usuario.IdRol.ToString())
                 };
@@ -80,6 +81,8 @@ namespace Rectimotos.Controllers
         [HttpPost] // REGISTRARSE SI Y SOLO SI ES CLIENTE
         public IActionResult Register(UsuariosViewModel model)
         {
+            PrepareViewData();
+
             var existingEmail = _context.Usuarios.FirstOrDefault(u => u.Usuario == model.Usuario);
             var existingUser = _context.Usuarios.FirstOrDefault(u => u.Usuario == model.Usuario);
             var existingPassword = _context.Usuarios.FirstOrDefault(u => u.Contraseña == model.Contraseña);
@@ -102,9 +105,6 @@ namespace Rectimotos.Controllers
             {
                 PrepareViewData();
 
-                model.Telefono = null;
-                model.IdCiudad = null;
-                model.Imagen = null;
                 model.IdRol = 2;
 
                 _context.Add(model);

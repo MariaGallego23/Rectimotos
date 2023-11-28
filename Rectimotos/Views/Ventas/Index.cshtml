@@ -1,29 +1,15 @@
 ﻿@model IEnumerable<Rectimotos.Models.VentasViewModel>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<center><h5>VENTAS RECTIMOTOS</h5></center>
+<hr />
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cantidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observaciones)
-            </th>
+            <th>Fecha Pedido</th>
+            <th>Usuario Cliente</th>
+            <th>Cantidad de Productos</th>
+            <th>Observaciones</th>
+            <th>Estado de Venta</th>
             <th></th>
         </tr>
     </thead>
@@ -43,10 +29,15 @@
                 @Html.DisplayFor(modelItem => item.Observaciones)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.IdEstado)
+            </td>
+
+            <td>AQUI BOTON PARA GESTINAR LA VENTA (Procesar) (Enviar)</td> @*lo que hay que completar con metodos post*@
+@*            <td>
                 <a asp-action="Edit" asp-route-id="@item.IdVenta">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IdVenta">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IdVenta">Delete</a>
-            </td>
+            </td>*@
         </tr>
 }
     </tbody>

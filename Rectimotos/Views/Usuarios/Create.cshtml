@@ -1,141 +1,222 @@
 ﻿@model Rectimotos.Models.UsuariosViewModel
-
-@{
-    ViewData["Title"] = "Create";
-}
-
-
+@using Rectimotos.Clases
+@using Rectimotos.Clases.Entidades;
 
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <title>REGISTRO DE CLIENTE | MONTACARGAS AM&M</title>
+        <title>REGISTRO DE USUARIO | MONTACARGAS AM&M</title>
+
         <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
         <link rel="stylesheet" href="~/css/Register.css" />
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="expires" content="0">
     </head>
 
     <body>
-        <header>
+        <div class="wrapper pb-5">
+
+            <center><h5>CREAR USUARIO</h5></center>
+            <hr />
+
             <div class="container">
-                <div class="card justify-content-center text-center hold-transition login-page m-auto">
+                <div class="row">
+                    <div class="col-md-12">
 
-                    <h4>CREAR USUARIO</h4>
-                    <hr />
-                    <div class="row">
-                        <div class="col-12">
-                            <form asp-action="Create">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                                <div class="card-body">
-                                    <div class="row col-12">
-                                        <div class="form-group col-6">
-                                            <label asp-for="Cedula" class="control-label">Número de Documento:</label>
-                                            <input asp-for="Cedula" class="form-control" />
-                                            <span asp-validation-for="Cedula" class="text-danger"></span>
-                                        </div>
-                                        <div class="form-group col-6">
-                                            <label asp-for="NombreCompleto" class="control-label">Nombre Completo:</label>
-                                            <input asp-for="NombreCompleto" class="form-control" />
-                                            <span asp-validation-for="NombreCompleto" class="text-danger"></span>
-                                        </div>
+                            <div class="card-body">
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="Cedula" class="control-label">Número de Documento:</label>
+                                        <input asp-for="Cedula" class="form-control"/>
+                                        <span asp-validation-for="Cedula" class="text-danger"></span>
                                     </div>
 
-                                    <div class="row col-12">
-                                        <div class="form-group col-6">                                        
-                                            <label asp-for="IdCiudad" class="control-label">Ciudad</label>
-                                            <input asp-for="IdCiudad" class="form-control" />
-                                            <span asp-validation-for="IdCiudad" class="text-danger"></span>
-                                        </div>
-
-                                       @* <div class="form-group col-6">                                        
-                                            <label asp-for="IdCiudad" class="control-label">Ciudad</label>
-                                            <select asp-for="IdCiudad" class="form-control" >
-                                              <option value="">SELECCIONAR</option>
-                                              @foreach (var ciudad in ViewData["Ciudades"] as List<Ciudad>)
-                                              {
-                                                <option value="@ciudad.IdCiudad">@ciudad.Nombre</option>
-                                              }
-                                            </select>
-                                            <span asp-validation-for="IdCiudad" class="text-danger"></span>
-                                        </div>*@
-
-                                        <div class="form-group col-6">                                        
-                                            <label asp-for="Direccion" class="control-label">Direccion</label>
-                                            <input asp-for="Direccion" class="form-control" />
-                                            <span asp-validation-for="Direccion" class="text-danger"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="row col-12">
-                                        <div class="form-group col-6">                                         
-                                            <label asp-for="IdRol" class="control-label">Rol:</label>
-                                            <input asp-for="IdRol" class="form-control" />
-                                            <span asp-validation-for="IdRol" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-group col-6">                                         
-                                            <label asp-for="Email" class="control-label">Correo Electronico:</label>
-                                            <input asp-for="Email" class="form-control" />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
-                                            @if (!string.IsNullOrEmpty(TempData["ErrorEmail"] as string))
-                                            {
-                                                <div class="text-danger">
-                                                    <p>
-                                                        @TempData["ErrorEmail"]
-                                                    </p>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div class="row col-12">
-                                        <div class="form-group col-6">                                           
-                                            <label asp-for="Usuario" class="control-label">Usuario:</label>
-                                            <input asp-for="Usuario" class="form-control" />
-                                            <span asp-validation-for="Usuario" class="text-danger"></span>
-                                            @if (!string.IsNullOrEmpty(TempData["ErrorUser"] as string))
-                                            {
-                                                <div class="text-danger">
-                                                    <p>
-                                                        @TempData["ErrorUser"]
-                                                    </p>
-                                                </div>
-                                            }
-                                         </div>
-
-                                        <div class="form-group col-6">                                           
-                                            <label asp-for="Contraseña" class="control-label">Contraseña</label>
-                                            <input asp-for="Contraseña" class="form-control" />
-                                            <span asp-validation-for="Contraseña" class="text-danger"></span>
-                                            @if (!string.IsNullOrEmpty(TempData["ErrorPassword"] as string))
-                                            {
-                                                <div class="text-danger">
-                                                    <p>
-                                                        @TempData["ErrorPassword"]
-                                                    </p>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group justify-content-center">
-                                        <input type="submit" value="Crear" class="btn btn-primary" />
+                                    <div class="form-group col-6">
+                                        <label asp-for="NombreCompleto" class="control-label">Nombre Completo:</label>
+                                        <input asp-for="NombreCompleto" class="form-control" />
+                                        <span asp-validation-for="NombreCompleto" class="text-danger"></span>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
 
-                    <div>
-                        <a asp-action="Index">Volver sin Crear</a>
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="Telefono" class="control-label">Telefono:</label>
+                                        <input asp-for="Telefono" class="form-control" />
+                                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        <label asp-for="IdCiudad" class="control-label">Ciudad:</label>
+                                        <select asp-for="IdCiudad" class="form-control">
+                                            @foreach (var Ciudad in ViewData["Ciudadess"] as List<Ciudad>)
+                                            {
+                                                <option value="@Ciudad.IdCiudad">@Ciudad.Nombre</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="IdCiudad" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">                                        
+                                        <label asp-for="Direccion" class="control-label">Direccion</label>
+                                        <input asp-for="Direccion" class="form-control" />
+                                        <span asp-validation-for="Direccion" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        <label asp-for="Imagen" class="control-label">Foto de Perfil: (Opcional)</label>
+                                        <input asp-for="Imagen" class="form-control" />
+                                        <span asp-validation-for="Imagen" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="IdRol" class="control-label">Tipo de Usuario:</label>
+                                        <select asp-for="IdRol" class="form-control">
+                                            @foreach (var Rol in ViewData["Roless"] as List<RolesUsuarios>)
+                                            {
+                                                <option value="@Rol.IdRol">@Rol.Descripcion</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="IdRol" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-6">                                         
+                                        <label asp-for="Email" class="control-label">Correo Electronico:</label>
+                                        <input asp-for="Email" class="form-control" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                        @if (!string.IsNullOrEmpty(TempData["ErrorEmail"] as string))
+                                        {
+                                            <div class="text-danger">
+                                                <p>
+                                                    @TempData["ErrorEmail"]
+                                                </p>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-6">
+                                        <label asp-for="Usuario" class="control-label">Usuario:</label>
+                                        <input asp-for="Usuario" class="form-control" />
+                                        <span asp-validation-for="Usuario" class="text-danger"></span>
+                                        @if (!string.IsNullOrEmpty(TempData["ErrorUser"] as string))
+                                        {
+                                            <div class="text-danger">
+                                                <p>
+                                                    @TempData["ErrorUser"]
+                                                </p>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        <label asp-for="Contraseña" class="control-label">Contraseña:</label>
+                                        <input asp-for="Contraseña" type="password" class="form-control" id="Contraseña" />
+                                        <span id="togglePassword" onclick="togglePasswordVisibility()"><i class="bi bi-eye"></i></span>
+                                        @if (!string.IsNullOrEmpty(TempData["ErrorPassword"] as string))
+                                        {
+                                            <div class="text-danger">
+                                                <p>
+                                                    @TempData["ErrorPassword"]
+                                                </p>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="form-group col-3">
+                                            <input type="submit" value="Crear Usuario" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </header>
+
+            <div>
+                <a asp-action="Index">Volver sin Crear</a>
+            </div>
+        </div>
+
+        @*LLAMADO DEL JS PARA MENSAJES*@
+        <div id="customModal" class="custom-modal">
+            <div class="custom-modal-content">
+                <span class="custom-modal-close" id="modalClose">&times;</span>
+                <p id="modalMessage"></p>
+            </div>
+        </div>
+
+        @*CONTRASEÑA*@
+        <script>
+            function togglePasswordVisibility() {
+                var passwordField = document.getElementById('Contraseña');
+                var togglePasswordIcon = document.getElementById('togglePassword');
+
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+
+                } else {
+                    passwordField.type = 'password';
+
+                }
+            }
+        </script>
+
+        @*MOSTRAR MODALES CON MENSAJES DE EXITO O ERROR*@
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var messageType = '@(TempData["MessageType"] as string)';
+                var successMessage = '@(TempData["Message"] as string)';
+
+
+                var messageText = successMessage || errorMessage;
+
+                if (messageText) {
+                    var modal = document.getElementById("customModal");
+                    var modalMessage = document.getElementById("modalMessage");
+                    var modalClose = document.getElementById("modalClose");
+
+                    modalMessage.innerText = messageText;
+
+                    if (messageType === 'success') {
+                        modalMessage.style.color = 'green';
+                    } else if (messageType === 'error') {
+                        modalMessage.style.color = 'red';
+                    }
+
+                    modal.style.display = "block";
+
+                    modalClose.onclick = function () {
+                        modal.style.display = "none";
+                    };
+
+                    window.onclick = function (event) {
+                        if (event.target === modal) {
+                            modal.style.display = "none";
+                        }
+                    };
+                }
+            });
+        </script>
+
     </body>
 </html>

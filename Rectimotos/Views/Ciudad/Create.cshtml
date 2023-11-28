@@ -1,4 +1,5 @@
-﻿@model Rectimotos.Clases.Ciudad
+﻿@using Rectimotos.Clases.Entidades;
+@model Rectimotos.Clases.Ciudad
 
 <head>
     <title>CREAR CIUDADES| RECTIMOTOS</title>
@@ -29,11 +30,21 @@
                             <input asp-for="Nombre" class="form-control" />
                             <span asp-validation-for="Nombre" class="text-danger"></span>
                         </div>
+
                         <div class="form-group col-md-6">
                             <label asp-for="IdEstado" class="control-label">Estado / Departamento:</label>
-                            <input asp-for="IdEstado" class="form-control" readonly />
+                            <select asp-for="IdEstado" class="form-control" disabled required>
+                                <option value=""></option>
+                                @foreach (var Estado in ViewData["Estadoss"] as List<Estados>)
+                                {
+                                    <option value="@Estado.IdEstado">@Estado.Nombre</option>
+                                }
+                            </select>
+                            <input asp-for="IdEstado" class="form-control" hidden required />
                             <span asp-validation-for="IdEstado" class="text-danger"></span>
                         </div>
+
+
                     </div>
 
                     <div class="form-group">

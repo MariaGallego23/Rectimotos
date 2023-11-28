@@ -19,6 +19,15 @@ namespace Rectimotos.Controllers
             _context = context;
         }
 
+        private void PrepareViewDatas()
+        {
+            List<Estados> Estados = _context.Estados.ToList();
+            ViewData["Estadoss"] = Estados;
+
+            List<Paises> Paises = _context.Paises.ToList();
+            ViewData["Paisess"] = Paises;
+        }
+
         private void PrepareViewData(int idPais)
         {
             ViewBag.Pais = idPais;
@@ -55,6 +64,7 @@ namespace Rectimotos.Controllers
         // GET: Estados/Create
         public IActionResult Create(int idPais)
         {
+            PrepareViewDatas();
             ViewBag.Pais = idPais;
 
             PrepareViewData(idPais);
@@ -66,6 +76,8 @@ namespace Rectimotos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdEstado,Nombre,IdPais")] Estados estados)
         {
+            PrepareViewDatas();
+
             if (ModelState.IsValid)
             {
                 _context.Add(estados);
@@ -81,6 +93,8 @@ namespace Rectimotos.Controllers
         // GET: Estados/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            PrepareViewDatas();
+
             if (id == null)
             {
                 return NotFound();
@@ -99,6 +113,8 @@ namespace Rectimotos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdEstado,Nombre,IdPais")] Estados estados)
         {
+            PrepareViewDatas();
+
             if (id != estados.IdEstado)
             {
                 return NotFound();

@@ -24,6 +24,12 @@ namespace Rectimotos.Controllers
             ViewData["Ciudadess"] = ciudad;
         }
 
+        public JsonResult Get(int paisId)
+        {
+            var estados = _context.Estados.Where(e => e.IdPais == paisId).ToList();
+            return Json(estados);
+        }
+
         // LOGEARSE
         public IActionResult Login()
         {

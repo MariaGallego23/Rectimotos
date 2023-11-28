@@ -203,5 +203,36 @@
             }
         </script>
 
+        @section scripts
+        {
+            <!-- Agregar el script de JavaScript para manejar la lógica de dependencia -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    var paisSelector = document.getElementById('paisSelector');
+                    var estadoSelector = document.getElementById('estadoSelector');
+
+                    paisSelector.addEventListener('change', function () {
+                        var selectedPaisId = paisSelector.value;
+
+                        $.ajax({
+                            url: '/Account/Get',
+                            type: 'GET',
+                            data: { paisId: selectedPaisId },
+                            success: function (estados) {
+                                estadoSelector.innerHTML = '<option value="">Seleccione un estado</option>';
+                                estadoSelector.removeAttribute('disabled');
+
+                                estados.forEach(function (estado) {
+                                    estadoSelector.innerHTML += '<option value="' + estado.IdEstado + '">' + estado.Nombre + '</option>';
+                                });
+                            },
+                            error: function (error) {
+                                console.error('Error al obtener estados: ', error);
+                            }
+                        });
+                    });
+                });
+            </script>
+        }
     </body>
 </html>

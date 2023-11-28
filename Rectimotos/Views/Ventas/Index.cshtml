@@ -1,7 +1,19 @@
 ﻿@model IEnumerable<Rectimotos.Models.VentasViewModel>
 
+<<<<<<< HEAD
 <center><h5>VENTAS RECTIMOTOS</h5></center>
 <hr />
+=======
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>TUS PEDIDOS</h1>
+
+<p>
+    <a asp-action="Create">Agregar pedido</a>
+</p>
+>>>>>>> c660df2f0190e6c5e4bbfb76ad4b3e81cdce1d18
 <table class="table">
     <thead>
         <tr>
@@ -29,6 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Observaciones)
             </td>
             <td>
+<<<<<<< HEAD
                 @Html.DisplayFor(modelItem => item.IdEstado)
             </td>
 
@@ -38,6 +51,12 @@
                 <a asp-action="Details" asp-route-id="@item.IdVenta">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IdVenta">Delete</a>
             </td>*@
+=======
+                <a asp-action="Edit" asp-route-id="@item.IdVenta">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdVenta">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdVenta">Borrar</a>
+            </td>
+>>>>>>> c660df2f0190e6c5e4bbfb76ad4b3e81cdce1d18
         </tr>
 }
     </tbody>

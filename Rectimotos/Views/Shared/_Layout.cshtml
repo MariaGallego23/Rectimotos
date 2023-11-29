@@ -25,7 +25,7 @@
             <header id="header" class="header fixed-top d-flex align-items-center">
 
                 <div class="d-flex align-items-center justify-content-between">
-                    <a asp-controller="Productos" asp-action="Index"><h4>RECTIMOTOS</h4></a>
+                    <a asp-controller="Home" asp-action="Index"><h4>RECTIMOTOS</h4></a>
                     <i class="bi bi-list toggle-sidebar-btn"></i>
                 </div>
 
@@ -35,6 +35,11 @@
                             <a class="nav-link" asp-area="" asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue("IdUser")"><i class="bi bi-person-circle"></i> @User.Identity.Name </a>
                         </li> 
 
+                    @if(User.IsInRole("User")){
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal">
+                        <i class="bi bi-cart"></i> Carrito
+                        </button>
+                    }
                         <li class="nav-item">
                             <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
                                 <button type="submit" class="btn btn-secondary">Cerrar Sesión</button>
@@ -98,7 +103,7 @@
                                 <i class="bi bi-box2 text-danger"></i>
                                 <span>Mis Pedidos</span>
                             </a>
-                        </li>
+                        </li>               
                     }
 
                 </ul>
@@ -121,10 +126,6 @@
                         <li class="nav-item">
                             <a class="nav-link btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
                         </li>
-
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carritoModal">
-                        <i class="bi bi-cart"></i> Carrito
-                    </button>
                     </ul>
                 </nav>
             </header>

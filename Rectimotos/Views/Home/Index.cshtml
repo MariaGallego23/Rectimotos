@@ -45,7 +45,10 @@
             <p>@producto.Descripcion</p>
             <span>@producto.Precio</span>
             <label>
-                <button id="btnProducto" class="btn btn-primary" name="@($"producto{producto.IdProducto}")">
+                <button class="btn btn-primary btnAgregarCarrito"
+                    data-id="@producto.IdProducto"
+                    data-nombre="@producto.Nombre"
+                    data-precio="@producto.Precio">
                     <i class="fas fa-plus"></i> Agregar a Carrito
                 </button>
             </label>

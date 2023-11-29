@@ -52,8 +52,8 @@
         </div>
     }
     <form method="post" asp-action="FilterByCategory">
-        <label for="categoriaId">Filtrar por categoría:</label>
-        <select name="categoriaId" id="categoriaId">
+        <label for="IdCategoria">Filtrar por categoría:</label>
+        <select name="IdCategoria" id="IdCategoria">
             <option value="">Todas las categorías</option>
             @foreach (var categoria in Model.Categorias)
             {
